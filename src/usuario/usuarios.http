@@ -1,0 +1,42 @@
+### Obtener todos los usuarios
+GET http://localhost:3000/api/usuarios
+
+### Obtener un usuario
+GET http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
+
+### Publicar un usuario
+POST http://localhost:3000/api/usuarios
+Content-Type:  application/json
+
+{
+    "nombre": "Tomas",
+    "apellido": "Gallardo",
+    "email": "tomas.gallardo23@gmail.com",
+    "pais": "Chile",
+    "tag": "TomasCABJ",
+    "rol":"User"
+}
+
+### Modificar un usuario
+PUT http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
+Content-Type:  application/json
+
+{
+    "nombre": "Lucio",
+    "apellido": "Fernandez",
+    "email": "lucio.fernandez98@yahoo.com",
+    "pais": "Argentina",
+    "tag": "xLuciox",
+    "rol":"User"
+}
+
+### Obtener un usuario (parcialmente)
+PUT http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
+Content-Type:  application/json
+
+{
+    "tag": "xXLucioXx"
+}
+
+### Eliminar un usuario
+DELETE http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
