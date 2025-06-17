@@ -1,0 +1,36 @@
+GET http://localhost:3000/api/usuarios
+
+GET http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
+
+POST http://localhost:3000/api/localhost:3000/api/usuarios
+Content-Type:  application/json
+
+{
+    "nombre": "Tomas",
+    "apellido": "Gallardo",
+    "email": "tomas.gallardo23@gmail.com",
+    "pais": "Chile",
+    "tag": "TomasCABJ",
+    "rol":"User"
+}
+
+PUT http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
+Content-Type:  application/json
+
+{
+    "nombre": "Lucio",
+    "apellido": "Fernandez",
+    "email": "lucio.fernandez98@yahoo.com",
+    "pais": "Argentina",
+    "tag": "xXLucioXx",
+    "rol":"User"
+}
+
+PUT http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
+Content-Type:  application/json
+
+{
+    "tag": "xXLucioXx"
+}
+
+DELETE http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
