@@ -1,0 +1,13 @@
+# Archivos generados por TypeScript
+*.js
+*.js.map
+tsconfig.tsbuildinfo
+
+# Carpeta de salida
+dist/
+
+# Archivos de pnpm
+.pnpm-workspace-state.json
+
+# node_modules (nunca se sube)
+node_modules/
