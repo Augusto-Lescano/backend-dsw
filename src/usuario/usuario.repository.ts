@@ -6,7 +6,7 @@ const usuarios = [
         'a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c',
         'Lucio',
         'Fernandez',
-        'lucia.fernandez98@yahoo.com',
+        'lucio.fernandez98@yahoo.com',
         'Argentina',
         'LuShadow',
         'User'

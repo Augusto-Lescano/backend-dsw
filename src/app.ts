@@ -7,28 +7,6 @@ const app = express()
 app.use(express.json())
 app.use('/api/usuarios',usuarioRouter)
 
-function sanitizeUsuarioInput(req:Request, res:Response, next:NextFunction){
-    req.body.sanitizedInput = {
-        nombre: req.body.nombre,
-        apellido: req.body.apellido,
-        email: req.body.email,
-        pais: req.body.pais,
-        tag: req.body.tag,
-        rol: req.body.rol,
-    }
-
-    Object.keys(req.body.sanitizeInput).forEach(key=>{
-        if(req.body.sanitizeInput[key]=== undefined){
-            delete req.body.sanitizeInput[key]
-        }
-        
-    })
-
-    next() 
-
-}
-
-
 app.use((req,res)=>{
     res.status(404).send({message:'Resource not found'})
 })

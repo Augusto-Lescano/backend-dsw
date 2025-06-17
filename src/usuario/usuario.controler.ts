@@ -1,7 +1,6 @@
 import express, {NextFunction, Request, Response} from 'express'
-import { Usuario } from './usuario/usuario.entity.js'
-import { UsuarioRepository } from './usuario/usuario.repository.js'
-
+import { Usuario } from './usuario.entity.js'
+import { UsuarioRepository } from './usuario.repository.js'
 const repository = new UsuarioRepository()
 
 function sanitizeUsuarioInput(req:Request, res:Response, next:NextFunction){
@@ -14,9 +13,9 @@ function sanitizeUsuarioInput(req:Request, res:Response, next:NextFunction){
         rol: req.body.rol,
     }
 
-    Object.keys(req.body.sanitizeInput).forEach(key=>{
-        if(req.body.sanitizeInput[key]=== undefined){
-            delete req.body.sanitizeInput[key]
+    Object.keys(req.body.sanitizedInput).forEach(key=>{
+        if(req.body.sanitizedInput[key]=== undefined){
+            delete req.body.sanitizedInput[key]
         }
         
     })
@@ -42,10 +41,17 @@ function findOne(req:Request,res: Response){
 
 
 function add(req:Request, res: Response){
-    const input = req.body.sanitizeInput
+    const input = req.body.sanitizedInput
 
     const usuarioInput = new Usuario(
-        input.name, input.nombre, input.apellido, input.email, input.pais,input.tag, input.rol)
+        input.name, 
+        input.nombre, 
+        input.apellido, 
+        input.email, 
+        input.pais,
+        input.tag, 
+        input.rol
+    )
 
     const usuario = repository.add(usuarioInput)
     res.status(201).send({message: 'Usuario created', data:usuario})   
@@ -53,8 +59,8 @@ function add(req:Request, res: Response){
 }
 
 function update(req:Request, res: Response){
-    req.body.sanitizeInput.id = req.params.id
-    const usuario =repository.update(req.body.sanitizeInput)
+    req.body.sanitizedInput.id = req.params.id
+    const usuario =repository.update(req.body.sanitizedInput)
 
 
     if(!usuario){
