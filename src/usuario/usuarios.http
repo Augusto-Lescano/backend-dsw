@@ -1,5 +1,6 @@
 ### Obtener todos los usuarios
 GET http://localhost:3000/api/usuarios
+
 ### Obtener un usuario
 GET http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
 
@@ -25,7 +26,7 @@ Content-Type:  application/json
     "apellido": "Fernandez",
     "email": "lucio.fernandez98@yahoo.com",
     "pais": "Argentina",
-    "tag": "xXLucioXx",
+    "tag": "xLuciox",
     "rol":"User"
 }
 
