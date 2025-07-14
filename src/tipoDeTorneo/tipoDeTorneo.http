@@ -1,0 +1,34 @@
+### get all tipo de torneo
+GET http://localhost:3000/api/tipoDeTorneo/
+
+### get one tipo de torneo
+GET http://localhost:3000/api/tipoDeTorneo/7d587c37-b8c5-4a86-b508-34c1c3d9b10e
+
+### add tipo de torneo
+POST http://localhost:3000/api/tipoDeTorneo/
+Content-Type: application/json
+
+{
+  "nombre":"5v5",
+  "descripcion":"Equipos de 5 jugadores se enfrentan para poder dominar una zona del mapa"
+}
+
+### update a tipo de torneo
+PUT http://localhost:3000/api/tipoDeTorneo/7d587c37-b8c5-4a86-b508-34c1c3d9b10e
+Content-Type: application/json
+
+{
+  "descripcion":"100 jugadores se enfrentan entre si en una batalla campal"
+}
+
+### update a tipo de torneo
+PATCH http://localhost:3000/api/tipoDeTorneo/7d587c37-b8c5-4a86-b508-34c1c3d9b10e
+Content-Type: application/json
+
+{
+  "nombre":"Batalla Campal"
+}
+
+### delete a tipo de torneo
+DELETE http://localhost:3000/api/tipoDeTorneo/7d587c37-b8c5-4a86-b508-34c1c3d9b10e
+
