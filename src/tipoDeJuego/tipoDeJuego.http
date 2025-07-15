@@ -1,0 +1,36 @@
+### get all tipos de juego
+GET http://localhost:3000/api/tipoDeJuego/
+
+### get one tipo de juego
+GET http://localhost:3000/api/tipoDeJuego/7324895b-24f5-49db-8944-8fa5551b9dfc
+
+### add one tipo de juego
+PUT http://localhost:3000/api/tipoDeJuego
+Content-Type: application/json
+
+{
+  "nombre":"Horror",
+  "descripcion":"Juegos con cosas que dan miedo"
+}
+
+### update a tipo de juego
+POST http://localhost:3000/api/tipoDeJuego/7324895b-24f5-49db-8944-8fa5551b9dfc
+Content-Type: application/json
+
+{
+  "nombre":"Pelea",
+  "descripcion":"Juegos con muchas peleas"
+}
+
+### update a tipo de juego
+PATCH  http://localhost:3000/api/tipoDeJuego/7324895b-24f5-49db-8944-8fa5551b9dfc
+Content-Type: application/json
+
+{
+  "descripcion":"Juegos con muchas peleas!!!"
+}
+
+### delete a tipo de juego
+DELETE http://localhost:3000/api/tipoDeJuego/7324895b-24f5-49db-8944-8fa5551b9dfc
+
+
