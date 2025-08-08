@@ -1,10 +1,8 @@
 ### Obtener todos los torneos
 GET http://localhost:3000/api/torneos
 
-### Obtener un torneo
-GET http://localhost:3000/api/torneos/27c8e78c-8267-4a68-8127-fd673db5deff
-
 ### Crear un torneo
+# @name createEsl
 POST http://localhost:3000/api/torneos
 Content-Type: application/json
 
@@ -21,8 +19,14 @@ Content-Type: application/json
     "estado": "finalizado"
 }
 
+### ID
+@id = {{createEsl.response.body.data.id}}
+
+### Obtener un torneo
+GET http://localhost:3000/api/torneos/{{id}}
+
 ### Modificar un torneo (Entero)
-PUT http://localhost:3000/api/torneos/27c8e78c-8267-4a68-8127-fd673db5deff
+PUT http://localhost:3000/api/torneos/{{id}}
 Content-Type: application/json
 
 {
@@ -38,8 +42,47 @@ Content-Type: application/json
     "estado": "En curso"
 }
 
-### Modificar un torneo (Parcial)
-PATCH http://localhost:3000/api/torneos/27c8e78c-8267-4a68-8127-fd673db5deff
+### Agregar un torneo
+POST http://localhost:3000/api/torneos
+Content-Type: application/json
+
+{
+    "nombre": "WPL Pro League - Valorant",
+    "descripcionReglas": "Formato: 8 equipos",
+    "cantidadJugadores": 16,
+    "fechaInicio": "2024-07-15T18:00:00", 
+    "fechaFin": "2024-07-30T23:00:00",
+    "fechaInicioIns": "2024-05-01T00:00:00",
+    "fechaFinIns": "2024-06-31T23:59:00",
+    "resultado": "Team Fnatic campeón (3-1 vs Navi)",
+    "region": "Global",
+    "estado": "finalizado"
+}
+
+### Agregar un torneo
+# @name createTorneoToDelete
+POST http://localhost:3000/api/torneos
+Content-Type: application/json
+
+{
+    "nombre": "Royale con queso",
+    "descripcionReglas": "Formato: 1vs1",
+    "cantidadJugadores": 10,
+    "fechaInicio": "2024-12-12T18:00:00", 
+    "fechaFin": "2024-12-12T23:00:00",
+    "fechaInicioIns": "2024-10-01T00:00:00",
+    "fechaFinIns": "2024-10-20T23:59:00",
+    "resultado": "Undefined",
+    "region": "Global",
+    "estado": "En curso"
+}
+
+### Eliminar un torneo
+@idToDelete = {{createTorneoToDelete.response.body.data.id}}
+DELETE http://localhost:3000/api/torneos/{{idToDelete}}
+
+### Actualizar parte de un torneo
+PATCH http://localhost:3000/api/torneos/{{idToDelete}}
 Content-Type: application/json
 
 {
@@ -48,4 +91,4 @@ Content-Type: application/json
 }
 
 ### Eliminar un torneo
-DELETE http://localhost:3000/api/torneos/27c8e78c-8267-4a68-8127-fd673db5deff
+DELETE http://localhost:3000/api/torneos/{{idToDelete}}

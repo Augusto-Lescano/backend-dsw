@@ -1,8 +1,8 @@
-import express,{ NextFunction, Request, RequestHandler, Response } from "express";
-import { TorneoRepository } from "./torneo.repository.js";
+import express,{ NextFunction, Request, Response } from "express";
 import { Torneo } from "./torneo.entity.js";
+import { orm } from "../shared/db/orm.js";
 
-const repository = new TorneoRepository()
+const em = orm.em
 
 function sanitizeTorneoInput(req: Request, res: Response, next: NextFunction) {
     req.body.sanitizedInput = {
@@ -26,49 +26,60 @@ function sanitizeTorneoInput(req: Request, res: Response, next: NextFunction) {
     next()
 }
 
-function findAll(req: Request, res: Response){
-    res.json({data: repository.findAll()});
+async function findAll(req: Request, res: Response){
+    try {
+    const torneos = await em.find(
+      Torneo,
+      {},
+    )
+    res.status(200).json({ message: 'Torneos encontrados', data: torneos})
+  } catch (error: any) {
+    res.status(500).json ({ message: error.message })
+  }
 }
 
-function findOne(req: Request, res: Response){
-    const torneo = repository.findOne({id: req.params.id})
-
-    if(!torneo){
-       res.status(404).send({message: 'torneo not found'})
-    } else {
-        res.json({data: torneo})
-    } 
+async function findOne(req: Request, res: Response){
+    try {
+    const id = Number.parseInt(req.params.id)
+    const torneo = await em.findOneOrFail(Torneo, { id })
+    res.status(200).json({ message: 'Torneo encontrado', data: torneo})
+  } catch (error: any) {
+    res.status(500).json ({ message: error.message })
+  }
 }
 
-function add(req: Request, res: Response){
-    const input = req.body.sanitizedInput
-
-    const torneoInput = new Torneo(
-        undefined, input.nombre, input.descripcionReglas, input.cantidadJugadores, input.fechaInicio, input.fechaFin, input.fechaInicioIns, input.fechaFinIns, input.resultado, input.region, input.estado)
-
-    const character = repository.add(torneoInput)
-    res.status(201).send({message: 'Torneo created', data: character})    
+async function add(req: Request, res: Response){
+    try {
+    const torneo = em.create(Torneo, req.body.sanitizedInput)
+    await em.flush()
+    res.status(201).json({ message: 'Torneo creado', data: torneo})
+  } catch (error: any) {
+    res.status(500).json ({ message: error.message })
+  }   
 }
 
-function update(req: Request, res: Response){
-    req.body.sanitizedInput.id = req.params.id
-    const torneo = repository.update(req.body.sanitizedInput)
-
-    if(!torneo){
-     res.status(404).send({message: 'Torneo not found'})
-    } 
-    res.status(200).send({message: 'Torneo updated successfully', data: torneo})
+async function update(req: Request, res: Response){
+    try {
+    const id = Number.parseInt(req.params.id)
+    const torneoToUpdate = await em.findOneOrFail(Torneo, { id })
+    em.assign(torneoToUpdate, req.body.sanitizedInput)
+    await em.flush()
+    res
+      .status(200)
+      .json({ message: 'Torneo actualizado', data: torneoToUpdate })
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
+  }
 }
 
-function remove(req: Request, res: Response){
-    const id = req.params.id
-    const torneo = repository.delete({id})
-
-    if(!torneo){
-        res.status(404).send({message: 'Torneo not found'})
-    } else {
-        res.status(200).send({message: 'Torneo deleted successfully'})
-    }
+async function remove(req: Request, res: Response){
+    try {
+    const id = Number.parseInt(req.params.id)
+    const torneo = em.getReference(Torneo, id)
+    await em.removeAndFlush(torneo)
+  } catch (error: any) {
+    res.status(500).json({ message: error.message })
+  }
 }
     
 
