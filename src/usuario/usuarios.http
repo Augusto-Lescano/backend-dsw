@@ -1,137 +1,68 @@
 ### Obtener todos los usuarios 
-
 GET http://localhost:3000/api/usuarios 
 
- 
+### Crear un usuario
+# @name createTomas
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
 
- 
-
-### Publicar un usuario 
-# @name createTomas 
-POST http://localhost:3000/api/usuarios 
-
-Content-Type:  application/json 
-
-
-{ 
-
-    "nombre": "Tomas", 
-
-    "apellido": "Gallardo", 
-
-    "email": "tomas.gallardo23@gmail.com", 
-
-    "pais": "Chile", 
-
-    "tag": "TomasCABJ", 
-
-    "rol":"User" 
-
-} 
-
- 
+{
+    "nombre": "Tomas",
+    "apellido": "Gallardo",
+    "email": "tomas.gallardo23@gmail.com",
+    "pais": "Chile",
+    "tag": "TomasCABJ",
+    "rol": "User"
+}
 
 ### ID 
-
 @id = {{createTomas.response.body.data.id}} 
 
- 
-
 ### Obtener un usuario 
-
 GET http://localhost:3000/api/usuarios/{{id}} 
 
- 
-
- 
-
 ### Modificar un usuario 
-
 PUT http://localhost:3000/api/usuarios/{{id}} 
-
 Content-Type:  application/json 
 
- 
-
 { 
-
     "nombre": "Lucio", 
-       "apellido": "Fernandez", 
-
+    "apellido": "Fernandez", 
     "email": "lucio.fernandez98@yahoo.com", 
-
     "pais": "Argentina", 
-
     "tag": "xLuciox", 
-
-    "rol":"User" 
-
+    "rol": "User" 
 } 
 
- 
-
 ### Publicar un usuario 
-
 POST http://localhost:3000/api/usuarios 
-
 Content-Type:  application/json 
-
  
-
 { 
-
     "nombre": "Fernando", 
-
     "apellido": "Ferandez", 
-
     "email": "ferfernandez@gmail.com", 
-
     "pais": "Argentina", 
-
     "tag": "dobleFF", 
-
-    "rol":"User" 
-
+    "rol":"User"
 } 
 
- 
+### Publicar un usuario
+# @name createToDelete
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
 
- 
-
-### Publicar un usuario 
-
-# @name createToDelete 
-
-POST http://localhost:3000/api/usuarios 
-
-Content-Type:  application/json 
-
- 
-
-{ 
-
-    "nombre": "Lucia", 
-
-    "apellido": "Gomez", 
-
-    "email": "luugomez@gmail.com", 
-
-    "pais": "Peru", 
-
-    "tag": "LuuPro", 
-
-    "rol":"User" 
-
-} 
-
- 
+{
+    "nombre": "Lucia",
+    "apellido": "Gomez",
+    "email": "luugomez@gmail.com",
+    "pais": "Peru",
+    "tag": "LuuPro",
+    "rol": "User"
+}
 
 ### ID 
-
 @idToDelete = {{createToDelete.response.body.data.id}} 
 
- 
-
 ### Eliminar un usuario 
-
-DELETE http://localhost:3000/api/usuarios/{{idToDelete}} 
+DELETE http://localhost:3000/api/usuarios/{{idToDelete}}
