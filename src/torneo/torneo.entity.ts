@@ -1,19 +1,37 @@
-import crypto from 'node:crypto';
+import { Entity, Property, Cascade, Rel } from '@mikro-orm/core';
 import { receiveMessageOnPort } from 'node:worker_threads';
+import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 
-export class Torneo {
-    constructor(
-        public id: string = crypto.randomUUID(),
-        public nombre: string,
-        public descripcionReglas: string,
-        public cantidadJugadores: number,
-        public fechaInicio: string,
-        public fechaFin: string,
-        public fechaInicioIns: string,
-        public fechaFinIns: string,
-        public resultado: string = '',
-        public region: string,
-        public estado: string = ''
-    ) {}
+@Entity()
+export class Torneo extends BaseEntity {
+    @Property({nullable: false})
+    nombre!: string
+
+    @Property({nullable: false})
+    descripcionReglas!: string
+
+    @Property({nullable: false})
+    cantidadJugadores!: number
+
+    @Property({nullable: false})
+    fechaInicio!: string
+
+    @Property({nullable: false})
+    fechaFin!: string
+
+    @Property({nullable: false})
+    fechaInicioIns!: string
+
+    @Property({nullable: false})
+    fechaFinIns!: string
+
+    @Property({nullable: false})
+    resultado!: string
+
+    @Property({nullable: false})
+    region!: string
+
+    @Property({nullable: false})
+    estado!: string
 }
 
