@@ -1,42 +1,137 @@
-### Obtener todos los usuarios
-GET http://localhost:3000/api/usuarios
+### Obtener todos los usuarios 
 
-### Obtener un usuario
-GET http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
+GET http://localhost:3000/api/usuarios 
 
-### Publicar un usuario
-POST http://localhost:3000/api/usuarios
-Content-Type:  application/json
+ 
 
-{
-    "nombre": "Tomas",
-    "apellido": "Gallardo",
-    "email": "tomas.gallardo23@gmail.com",
-    "pais": "Chile",
-    "tag": "TomasCABJ",
-    "rol":"User"
-}
+ 
 
-### Modificar un usuario
-PUT http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
-Content-Type:  application/json
+### Publicar un usuario 
+# @name createTomas 
+POST http://localhost:3000/api/usuarios 
 
-{
-    "nombre": "Lucio",
-    "apellido": "Fernandez",
-    "email": "lucio.fernandez98@yahoo.com",
-    "pais": "Argentina",
-    "tag": "xLuciox",
-    "rol":"User"
-}
+Content-Type:  application/json 
 
-### Obtener un usuario (parcialmente)
-PUT http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
-Content-Type:  application/json
 
-{
-    "tag": "xXLucioXx"
-}
+{ 
 
-### Eliminar un usuario
-DELETE http://localhost:3000/api/usuarios/a3170e4f-bcf7-4c25-9a3e-52b8cfa2016c
+    "nombre": "Tomas", 
+
+    "apellido": "Gallardo", 
+
+    "email": "tomas.gallardo23@gmail.com", 
+
+    "pais": "Chile", 
+
+    "tag": "TomasCABJ", 
+
+    "rol":"User" 
+
+} 
+
+ 
+
+### ID 
+
+@id = {{createTomas.response.body.data.id}} 
+
+ 
+
+### Obtener un usuario 
+
+GET http://localhost:3000/api/usuarios/{{id}} 
+
+ 
+
+ 
+
+### Modificar un usuario 
+
+PUT http://localhost:3000/api/usuarios/{{id}} 
+
+Content-Type:  application/json 
+
+ 
+
+{ 
+
+    "nombre": "Lucio", 
+       "apellido": "Fernandez", 
+
+    "email": "lucio.fernandez98@yahoo.com", 
+
+    "pais": "Argentina", 
+
+    "tag": "xLuciox", 
+
+    "rol":"User" 
+
+} 
+
+ 
+
+### Publicar un usuario 
+
+POST http://localhost:3000/api/usuarios 
+
+Content-Type:  application/json 
+
+ 
+
+{ 
+
+    "nombre": "Fernando", 
+
+    "apellido": "Ferandez", 
+
+    "email": "ferfernandez@gmail.com", 
+
+    "pais": "Argentina", 
+
+    "tag": "dobleFF", 
+
+    "rol":"User" 
+
+} 
+
+ 
+
+ 
+
+### Publicar un usuario 
+
+# @name createToDelete 
+
+POST http://localhost:3000/api/usuarios 
+
+Content-Type:  application/json 
+
+ 
+
+{ 
+
+    "nombre": "Lucia", 
+
+    "apellido": "Gomez", 
+
+    "email": "luugomez@gmail.com", 
+
+    "pais": "Peru", 
+
+    "tag": "LuuPro", 
+
+    "rol":"User" 
+
+} 
+
+ 
+
+### ID 
+
+@idToDelete = {{createToDelete.response.body.data.id}} 
+
+ 
+
+### Eliminar un usuario 
+
+DELETE http://localhost:3000/api/usuarios/{{idToDelete}} 

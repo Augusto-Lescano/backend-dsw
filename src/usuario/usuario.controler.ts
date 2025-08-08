@@ -1,91 +1,175 @@
-import express, {NextFunction, Request, Response} from 'express'
-import { Usuario } from './usuario.entity.js'
-import { UsuarioRepository } from './usuario.repository.js'
-const repository = new UsuarioRepository()
+import express, {NextFunction, Request, Response} from 'express' 
 
-function sanitizeUsuarioInput(req:Request, res:Response, next:NextFunction){
-    req.body.sanitizedInput = {
-        nombre: req.body.nombre,
-        apellido: req.body.apellido,
-        email: req.body.email,
-        pais: req.body.pais,
-        tag: req.body.tag,
-        rol: req.body.rol,
-    }
+import { Usuario } from './usuario.entity.js' 
 
-    Object.keys(req.body.sanitizedInput).forEach(key=>{
-        if(req.body.sanitizedInput[key]=== undefined){
-            delete req.body.sanitizedInput[key]
-        }
-        
-    })
+import { orm } from '../shared/db/orm.js'
 
-    next() 
+ 
 
-}
+const em = orm.em 
 
+ 
 
-function findAll(req:Request,res: Response){
-    res.json({data: repository.findAll()})
-}
+function sanitizeUsuarioInput(req:Request, res:Response, next:NextFunction){ 
 
+    req.body.sanitizedInput = { 
 
-function findOne(req:Request,res: Response){
-    const usuario = repository.findOne({id:req.params.id})
-    if(!usuario){
-       res.status(404).send({message:'Usuario not found'})
-       return
-    }
-    res.json(usuario)
-}
+        nombre: req.body.nombre, 
 
+        apellido: req.body.apellido, 
 
-function add(req:Request, res: Response){
-    const input = req.body.sanitizedInput
+        email: req.body.email, 
 
-    const usuarioInput = new Usuario(
-        input.name, 
-        input.nombre, 
-        input.apellido, 
-        input.email, 
-        input.pais,
-        input.tag, 
-        input.rol
-    )
+        pais: req.body.pais, 
 
-    const usuario = repository.add(usuarioInput)
-    res.status(201).send({message: 'Usuario created', data:usuario})   
-    return
-}
+        tag: req.body.tag, 
 
-function update(req:Request, res: Response){
-    req.body.sanitizedInput.id = req.params.id
-    const usuario =repository.update(req.body.sanitizedInput)
+        rol: req.body.rol, 
 
+    } 
 
-    if(!usuario){
-        res.status(404).send({message:'Usuario not found'})
-        return
-    }
+ 
 
-    res.status(200).send({message:'Usuario update succesfully', data:usuario})
-    return
-}
+    Object.keys(req.body.sanitizedInput).forEach(key=>{ 
 
-function remove(req:Request, res: Response){
-    const id = req.params.id
-    const usuario = repository.delete({id})
-    
+        if(req.body.sanitizedInput[key]=== undefined){ 
 
-    if(!usuario){
-        res.status(404).send({message:'Usuario not found'})
-        
-    }else{
-        res.status(200).send({message:'Usuario deleted succesfully'})
-    }
-    
-    
-}
+            delete req.body.sanitizedInput[key] 
 
+        } 
 
-export {sanitizeUsuarioInput, findAll, findOne, add, update, remove }
+         
+
+    }) 
+
+ 
+
+    next()  
+
+ 
+
+} 
+
+ 
+
+ 
+
+async function findAll(req:Request,res: Response){ 
+
+    try{ 
+
+        const usuarios = await em.find(Usuario,{}) 
+
+        res.status(200).json({message:'Se encontraron todos los usarios', data: usuarios }) 
+        }catch(error:any){ 
+
+        res.status(500).json({message: error.message}) 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+async function findOne(req:Request,res: Response){ 
+
+    try{ 
+
+        const id = Number.parseInt(req.params.id) 
+
+        const usuario = await em.findOneOrFail(Usuario,{id}) 
+
+        res.status(200).json({message:'Se encontro el usuario', data: usuario }) 
+
+ 
+
+    }catch(error:any){ 
+
+        res.status(500).json({message: error.message}) 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+async function add(req:Request, res: Response){ 
+
+    try{ 
+
+        delete req.body.sanitizedInput.id; 
+
+        const usuario = em.create(Usuario, req.body.sanitizedInput) 
+
+        await em.flush() 
+
+        res.status(201).json({message:'Usuario creado', data: usuario }) 
+
+ 
+
+    }catch(error:any){ 
+
+        res.status(500).json({message: error.message}) 
+
+    } 
+
+} 
+
+ 
+
+async function update(req:Request, res: Response){ 
+
+    try{ 
+
+        const id = Number.parseInt(req.params.id) 
+
+        const usuarioUpdate = await em.findOneOrFail(Usuario, {id}) 
+
+        em.assign(usuarioUpdate, req.body.sanitizedInput) 
+
+        await em.flush() 
+
+        res.status(201).json({message:'Usuario actualizado', data: usuarioUpdate }) 
+
+ 
+
+    }catch(error:any){ 
+
+        res.status(500).json({message: error.message}) 
+
+    } 
+
+} 
+
+ 
+
+async function remove(req:Request, res: Response){ 
+
+    try{ 
+
+        const id = Number.parseInt(req.params.id) 
+                const usuarioDelete = em.getReference(Usuario, id) 
+
+        await em.removeAndFlush(usuarioDelete) 
+
+        res.status(200).json({message:'Usuario eliminado', data: usuarioDelete }) 
+
+ 
+
+    }catch(error:any){ 
+
+        res.status(500).json({message: error.message}) 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+export {sanitizeUsuarioInput, findAll, findOne, add, update, remove } 
