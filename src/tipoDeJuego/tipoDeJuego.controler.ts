@@ -1,64 +1,75 @@
 import { Request, Response, NextFunction } from "express";
 import { TipoDeJuego } from "./tipoDeJuego.entity.js";
-import { TipoDeJuegoRepository } from "./tipoDeJuego.repository.js";
+import { orm } from "../shared/db/orm.js";
+
 
 function sanitizedTipoDeJuegoInput(req:Request,res:Response,next:NextFunction){
   const source=req.body
-  req.body.sanitizedTipoDeJuego={
+  req.body.sanitizedInput={
     nombre:source.nombre,
     descripcion:source.descripcion
   }
-  Object.keys(req.body.sanitizedTipoDeJuego).forEach(key=>{
-    if(req.body.sanitizedTipoDeJuego[key]===undefined){
-      delete req.body.sanitizedTipoDeJuego[key]
+  Object.keys(req.body.sanitizedInput).forEach(key=>{
+    if(req.body.sanitizedInput[key]===undefined){
+      delete req.body.sanitizedInput[key]
     }
   })
   next()
 }
 
-const repository = new TipoDeJuegoRepository()
+const em = orm.em
 
-function findAll(req:Request, res:Response){
-  res.json({data:repository.findAll()})
-}
-
-function findOne(req:Request, res:Response){
-  const tipo = repository.findOne({id:req.params.id})
-  if(tipo===undefined){
-    res.status(404).send({message:"Tipo de Juego not found"})
-  }else{
-    res.status(200).send({message:"Tipo de Juego found", data:tipo})
+async function findAll(req:Request, res:Response){
+  try {
+    const tiposDeJuego = await em.find(TipoDeJuego,{})
+    res.status(200).json({message:"Todos los tipos de juegos", data: tiposDeJuego})
+  } catch (error: any) {
+    res.status(500).json(error.message)
   }
 }
 
-function add(req:Request, res:Response){
-  const input = req.body.sanitizedTipoDeJuego
-  const tipo = new TipoDeJuego(
-    input.nombre,
-    input.descripcion
-  )
-  repository.add(tipo)
-  res.status(201).send({message:"Tipo de Juego created", data:tipo})
-}
-
-function update(req:Request, res:Response){
-  req.body.sanitizedTipoDeJuego.id=req.params.id
-  const tipo = repository.update(req.body.sanitizedTipoDeJuego)
-  if(tipo!==undefined){
-    res.status(200).send({message:"Tipo de Juego updated", data:tipo})
-  }else{
-    res.status(404).send({message:"Tipo de Juego not found"})
+async function findOne(req:Request, res:Response){
+  try {
+    const id = Number.parseInt(req.params.id)
+    const tipoDeJuego = await em.findOneOrFail(TipoDeJuego, {id})
+    res.status(200).json({message:"Tipo de juego encontrado", data: tipoDeJuego})
+  } catch (error: any) {
+    res.status(500).json({message:error.message})
   }
 }
 
-function remove(req:Request, res:Response){
+async function add(req:Request, res:Response){
+  try {
+    const tipoDeJuego= em.create(TipoDeJuego, req.body.sanitizedInput)
+    await em.flush()
+    res.status(201).json({message: "Tipo de Juego creado", data: tipoDeJuego})
+  } catch (error:any) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+async function update(req:Request, res:Response){
+  try {
+    const id = Number.parseInt(req.params.id)
+    const tipodeJuego = em.getReference(TipoDeJuego,id)
+    em.assign(tipodeJuego, req.body.sanitizedInput)
+    await em.flush()
+    res.status(200).json({message:"Tipo de Juego actualizado", data: tipodeJuego})
+  } catch (error:any) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+async function remove(req:Request, res:Response){
+  try {
+    const id = Number.parseInt(req.params.id)
+    const tipoDeJuego = em.getReference(TipoDeJuego, id)
+    await em.removeAndFlush(tipoDeJuego)
+    res.status(200).json({message:"Tipo de juego eliminado"})
+  } catch (error:any) {
+    res.status(500).json({message:error.message})
+  }
   
-  const tipo = repository.delete({id:req.params.id})
-  if(tipo!==undefined){
-    res.status(200).send({message:"Tipo de Juego deleted", data:tipo})
-  }else{
-    res.status(404).send({message:"Tipo de Juego not found"})
-  }
 }
 
 export {sanitizedTipoDeJuegoInput, findAll, findOne, add, update, remove}
