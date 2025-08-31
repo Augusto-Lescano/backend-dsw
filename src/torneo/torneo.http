@@ -16,7 +16,8 @@ Content-Type: application/json
     "fechaFinIns": "2024-05-31T23:59:00",
     "resultado": "Team Vitality campeón (3-1 vs FaZe Clan)",
     "region": "Global",
-    "estado": "finalizado"
+    "estado": "finalizado",
+    "tipoDeTorneo":1
 }
 
 ### ID
@@ -39,7 +40,8 @@ Content-Type: application/json
     "fechaFinIns": "2024-09-15T23:59:00",
     "resultado": "Pendiente",
     "region": "Global",
-    "estado": "En curso"
+    "estado": "En curso",
+    "tipoDeTorneo":2
 }
 
 ### Agregar un torneo
@@ -56,7 +58,8 @@ Content-Type: application/json
     "fechaFinIns": "2024-06-31T23:59:00",
     "resultado": "Team Fnatic campeón (3-1 vs Navi)",
     "region": "Global",
-    "estado": "finalizado"
+    "estado": "finalizado",
+    "tipoDeTorneo":2
 }
 
 ### Agregar un torneo
@@ -74,7 +77,8 @@ Content-Type: application/json
     "fechaFinIns": "2024-10-20T23:59:00",
     "resultado": "Undefined",
     "region": "Global",
-    "estado": "En curso"
+    "estado": "En curso",
+    "tipoDeTorneo":1
 }
 
 ### Eliminar un torneo
