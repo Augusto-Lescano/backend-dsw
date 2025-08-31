@@ -1,8 +1,18 @@
-import crypto from "node:crypto"
-export class TipoDeTorneo{
- constructor(
- public nombre:string,
- public descripcion:string,
- public id = crypto.randomUUID()
- ){}
+import { Entity, Property, OneToMany, Cascade, Collection } from "@mikro-orm/core";
+import { BaseEntity } from "../shared/db/baseEntity.entity.js";
+import { Torneo } from "../torneo/torneo.entity.js";
+
+@Entity()
+export class TipoDeTorneo extends BaseEntity{
+ 
+  @Property({nullable:false, unique:true})
+  nombre!: string
+  
+  @Property({nullable:false})
+  descripcion!: string
+  
+  @OneToMany(()=>Torneo,(torneo)=>torneo.tipoDeTorneo, {cascade:[Cascade.ALL]})
+  torneos = new Collection<Torneo>(this)
+
+ 
 }

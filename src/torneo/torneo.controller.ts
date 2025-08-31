@@ -15,7 +15,8 @@ function sanitizeTorneoInput(req: Request, res: Response, next: NextFunction) {
         fechaFinIns: req.body.fechaFinIns,
         resultado: req.body.resultado,
         region: req.body.region,
-        estado: req.body.estado
+        estado: req.body.estado,
+        tipoDeTorneo: req.body.tipoDeTorneo
     }
     //Más validaciones acá
 
@@ -31,6 +32,7 @@ async function findAll(req: Request, res: Response){
     const torneos = await em.find(
       Torneo,
       {},
+      {populate:["tipoDeTorneo"]}
     )
     res.status(200).json({ message: 'Torneos encontrados', data: torneos})
   } catch (error: any) {
@@ -41,7 +43,7 @@ async function findAll(req: Request, res: Response){
 async function findOne(req: Request, res: Response){
     try {
     const id = Number.parseInt(req.params.id)
-    const torneo = await em.findOneOrFail(Torneo, { id })
+    const torneo = await em.findOneOrFail(Torneo, { id }, {populate:["tipoDeTorneo"]})
     res.status(200).json({ message: 'Torneo encontrado', data: torneo})
   } catch (error: any) {
     res.status(500).json ({ message: error.message })
@@ -77,6 +79,7 @@ async function remove(req: Request, res: Response){
     const id = Number.parseInt(req.params.id)
     const torneo = em.getReference(Torneo, id)
     await em.removeAndFlush(torneo)
+    res.status(200).json({message:"Torneo eliminado"})
   } catch (error: any) {
     res.status(500).json({ message: error.message })
   }

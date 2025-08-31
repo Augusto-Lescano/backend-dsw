@@ -1,34 +1,39 @@
-### get all tipo de torneo
+### get all
 GET http://localhost:3000/api/tipoDeTorneo/
 
-### get one tipo de torneo
-GET http://localhost:3000/api/tipoDeTorneo/7d587c37-b8c5-4a86-b508-34c1c3d9b10e
-
-### add tipo de torneo
+### post
+# @name createTipoDeTorneo
 POST http://localhost:3000/api/tipoDeTorneo/
 Content-Type: application/json
 
 {
-  "nombre":"5v5",
-  "descripcion":"Equipos de 5 jugadores se enfrentan para poder dominar una zona del mapa"
+  "nombre":"Supervivencia",
+  "descripcion":"10 jugadores se enfrentan entre si, donde solo uno queda en pie"
 }
 
-### update a tipo de torneo
-PUT http://localhost:3000/api/tipoDeTorneo/7d587c37-b8c5-4a86-b508-34c1c3d9b10e
+### post
+POST http://localhost:3000/api/tipoDeTorneo/
 Content-Type: application/json
 
 {
-  "descripcion":"100 jugadores se enfrentan entre si en una batalla campal"
+  "nombre":"Torneo por equipos",
+  "descripcion":"Varios equipos se enfrentan para decidir el vencedor"
 }
 
-### update a tipo de torneo
-PATCH http://localhost:3000/api/tipoDeTorneo/7d587c37-b8c5-4a86-b508-34c1c3d9b10e
+###id
+@id={{createTipoDeTorneo.response.body.data.id}}
+
+### get one
+GET http://localhost:3000/api/tipoDeTorneo/{{id}}
+
+### put
+PUT http://localhost:3000/api/tipoDeTorneo/{{id}}
 Content-Type: application/json
 
 {
-  "nombre":"Batalla Campal"
+  "nombre":"Batalla Campal",
+  "descripcion":"10 jugadores se enfrentan entre si, donde solo uno queda en pie"
 }
 
-### delete a tipo de torneo
-DELETE http://localhost:3000/api/tipoDeTorneo/7d587c37-b8c5-4a86-b508-34c1c3d9b10e
-
+### DELETE
+DELETE http://localhost:3000/api/tipoDeTorneo/{{id}}

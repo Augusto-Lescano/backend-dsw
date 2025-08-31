@@ -1,6 +1,7 @@
-import { Entity, Property, Cascade, Rel } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, Cascade, Rel } from '@mikro-orm/core';
 import { receiveMessageOnPort } from 'node:worker_threads';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
+import { TipoDeTorneo } from '../tipoDeTorneo/tipoDeTorneo.entity.js';
 
 @Entity()
 export class Torneo extends BaseEntity {
@@ -33,5 +34,9 @@ export class Torneo extends BaseEntity {
 
     @Property({nullable: false})
     estado!: string
+
+    @ManyToOne(()=>TipoDeTorneo,{nullable:false})
+    tipoDeTorneo!: Rel<TipoDeTorneo>
+
 }
 
