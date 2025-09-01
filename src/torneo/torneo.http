@@ -17,7 +17,8 @@ Content-Type: application/json
     "resultado": "Team Vitality campeón (3-1 vs FaZe Clan)",
     "region": "Global",
     "estado": "finalizado",
-    "tipoDeTorneo":1
+    "tipoDeTorneo":1,
+    "juego":6
 }
 
 ### ID
@@ -41,7 +42,8 @@ Content-Type: application/json
     "resultado": "Pendiente",
     "region": "Global",
     "estado": "En curso",
-    "tipoDeTorneo":2
+    "tipoDeTorneo":2,
+    "juego":6
 }
 
 ### Agregar un torneo
@@ -59,7 +61,8 @@ Content-Type: application/json
     "resultado": "Team Fnatic campeón (3-1 vs Navi)",
     "region": "Global",
     "estado": "finalizado",
-    "tipoDeTorneo":2
+    "tipoDeTorneo":2,
+    "juego":6
 }
 
 ### Agregar un torneo
@@ -78,7 +81,8 @@ Content-Type: application/json
     "resultado": "Undefined",
     "region": "Global",
     "estado": "En curso",
-    "tipoDeTorneo":1
+    "tipoDeTorneo":1,
+    "juego":6
 }
 
 ### Eliminar un torneo
