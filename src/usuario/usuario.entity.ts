@@ -1,5 +1,6 @@
-import { Entity, Property } from "@mikro-orm/core";
+import { Cascade, Collection, Entity, ManyToMany, Property } from "@mikro-orm/core";
 import { BaseEntity } from "../shared/db/baseEntity.entity.js";
+import { Torneo } from "../torneo/torneo.entity.js";
 
 @Entity()
 export class Usuario extends BaseEntity {
@@ -20,4 +21,7 @@ export class Usuario extends BaseEntity {
 
   @Property({ nullable: true })
   rol?: string;
+
+  @ManyToMany(()=>Torneo,(torneo)=>torneo.usuarios, {cascade:[Cascade.ALL]})
+  torneos = new Collection<Torneo>(this)
 }
