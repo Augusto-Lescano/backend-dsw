@@ -58,7 +58,7 @@ async function findAll(req:Request,res: Response){
 
     try{ 
 
-        const usuarios = await em.find(Usuario,{}) 
+        const usuarios = await em.find(Usuario,{},{populate:["torneos"]}) 
 
         res.status(200).json({message:'Se encontraron todos los usarios', data: usuarios }) 
         }catch(error:any){ 
@@ -79,7 +79,7 @@ async function findOne(req:Request,res: Response){
 
         const id = Number.parseInt(req.params.id) 
 
-        const usuario = await em.findOneOrFail(Usuario,{id}) 
+        const usuario = await em.findOneOrFail(Usuario,{id},{populate:["torneos"]}) 
 
         res.status(200).json({message:'Se encontro el usuario', data: usuario }) 
 
