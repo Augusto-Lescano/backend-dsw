@@ -1,4 +1,4 @@
-import { Entity, Property, ManyToOne, Cascade, Rel } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, Rel } from '@mikro-orm/core';
 import { receiveMessageOnPort } from 'node:worker_threads';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 import { TipoDeTorneo } from '../tipoDeTorneo/tipoDeTorneo.entity.js';

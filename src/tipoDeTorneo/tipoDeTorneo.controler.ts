@@ -20,7 +20,7 @@ const em = orm.em
 
 async function findAll(req:Request, res:Response){
   try{
-    const tiposDeTorneo = em.find(TipoDeTorneo,{})
+    const tiposDeTorneo = await em.find(TipoDeTorneo,{})
     res.status(200).json({message:"Todos los tipos de torneo", data:tiposDeTorneo})
   }catch(err:any){
     res.status(500).json({message:err.message})
