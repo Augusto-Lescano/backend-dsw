@@ -18,8 +18,9 @@ Content-Type: application/json
     "region": "Global",
     "estado": "finalizado",
     "tipoDeTorneo":1,
-    "juego":6,
-    "usuarios":[1,2]
+    "juego":1,
+    "creador":1,
+    "plataforma":1
 }
 
 ### ID

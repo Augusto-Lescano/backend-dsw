@@ -13,6 +13,4 @@ export class TipoDeTorneo extends BaseEntity{
   
   @OneToMany(()=>Torneo,(torneo)=>torneo.tipoDeTorneo, {cascade:[Cascade.ALL]})
   torneos = new Collection<Torneo>(this)
-
- 
 }

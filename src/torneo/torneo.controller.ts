@@ -18,7 +18,8 @@ function sanitizeTorneoInput(req: Request, res: Response, next: NextFunction) {
         estado: req.body.estado,
         tipoDeTorneo: req.body.tipoDeTorneo,
         juego:req.body.juego,
-        creador:req.body.creador
+        creador:req.body.creador,
+        plataforma:req.body.plataforma
     }
     //Más validaciones acá
 
@@ -34,7 +35,8 @@ async function findAll(req: Request, res: Response){
     const torneos = await em.find(
       Torneo,
       {},
-      {populate:["tipoDeTorneo","juego","creador"]}
+      {populate:["tipoDeTorneo","juego","creador","plataforma"]}
+      
     )
     res.status(200).json({ message: 'Torneos encontrados', data: torneos})
   } catch (error: any) {
@@ -45,7 +47,7 @@ async function findAll(req: Request, res: Response){
 async function findOne(req: Request, res: Response){
     try {
     const id = Number.parseInt(req.params.id)
-    const torneo = await em.findOneOrFail(Torneo, { id }, {populate:["tipoDeTorneo","juego","creador"]})
+    const torneo = await em.findOneOrFail(Torneo, { id }, {populate:["tipoDeTorneo","juego","creador","plataforma"]})
     res.status(200).json({ message: 'Torneo encontrado', data: torneo})
   } catch (error: any) {
     res.status(500).json ({ message: error.message })
