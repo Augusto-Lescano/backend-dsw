@@ -9,7 +9,8 @@ Content-Type: application/json
 {
   "nombre":"Hollow Knight",
   "descripcion":"juego de bichitos",
-  "tipoDeJuego":2
+  "tipoDeJuego":1,
+  "plataformas":[1]
 }
 
 ### get one
@@ -23,7 +24,8 @@ Content-Type: application/json
 {
   "nombre":"Caballero Vacio",
   "descripcion":"juego de bichitos",
-  "tipoDeJuego":2
+  "tipoDeJuego":1,
+  
 }
 
 ### delete

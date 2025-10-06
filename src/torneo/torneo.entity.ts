@@ -6,6 +6,7 @@ import { Juego } from '../juego/juego.entity.js';
 import { Usuario } from '../usuario/usuario.entity.js';
 import { Equipo } from '../equipo/equipo.entity.js';
 import { Inscripcion } from '../inscripcion/inscripcion.entity.js';
+import { Plataforma } from '../plataforma/plataforma.entity.js';
 
 @Entity()
 export class Torneo extends BaseEntity {
@@ -53,5 +54,9 @@ export class Torneo extends BaseEntity {
 
     @OneToMany(() => Inscripcion, inscripcion => inscripcion.torneo)
     inscripciones = new Collection<Inscripcion>(this);
+    
+    @ManyToOne(()=>Plataforma, {nullable:false})
+    plataforma!: Rel<Plataforma>
+
 }
 

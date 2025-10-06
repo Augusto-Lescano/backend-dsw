@@ -7,6 +7,7 @@ import { tipoDeTorneoRouter } from './tipoDeTorneo/tipoDeTorneo.routes.js';
 import { tipoDeJuegoRouter } from './tipoDeJuego/tipoDeJuego.routes.js';
 import { juegoRouter } from './juego/juego.routes.js';
 import { equipoRouter } from './equipo/equipo.routes.js';
+import { plataformaRouter } from './plataforma/plataforma.routes.js';
 import { orm, syncSchema } from './shared/db/orm.js';
 import { RequestContext } from '@mikro-orm/core';
 import { inscripcionRouter } from './inscripcion/inscripcion.routes.js';
@@ -27,6 +28,7 @@ app.use("/api/tipoDeJuego",tipoDeJuegoRouter)
 app.use("/api/juego", juegoRouter)
 app.use("/api/equipos", equipoRouter) 
 app.use('/api/inscripcion', inscripcionRouter)
+app.use("/api/plataforma",plataformaRouter)
 
 app.use((_req: Request, res: Response) => {
   res.status(404).json({ message: 'Resource not found' });

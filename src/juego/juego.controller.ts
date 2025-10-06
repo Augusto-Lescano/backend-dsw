@@ -6,7 +6,8 @@ function sanitizedJuegoInput(req:Request, res:Response, next:NextFunction){
   req.body.sanitizedInput={
     nombre:req.body.nombre,
     descripcion:req.body.descripcion,
-    tipoDeJuego:req.body.tipoDeJuego
+    tipoDeJuego:req.body.tipoDeJuego,
+    plataformas:req.body.plataformas
   }
   Object.keys(req.body.sanitizedInput).forEach(key=>{
     if(req.body.sanitizedInput[key]===undefined){
@@ -20,7 +21,7 @@ const em = orm.em
 
 async function findAll(req:Request, res:Response){
   try {
-    const juegos = await em.find(Juego,{},{populate:["tipoDeJuego"]})
+    const juegos = await em.find(Juego,{},{populate:["tipoDeJuego", "plataformas"]})
     res.status(200).json({message:"Listado de Juegos", data: juegos})
   } catch (error:any) {
     res.status(500).json({message:error.message})
@@ -30,7 +31,7 @@ async function findAll(req:Request, res:Response){
 async function findOne(req:Request, res:Response){
   try {
     const id = Number.parseInt(req.params.id)
-    const juego =await em.findOneOrFail(Juego, {id}, {populate:["tipoDeJuego"]})
+    const juego =await em.findOneOrFail(Juego, {id}, {populate:["tipoDeJuego", "plataformas"]})
     res.status(200).json({message:"Juego encontrado", data:juego})
   } catch (error:any) {
     res.status(500).json({message:error.message})

@@ -1,0 +1,30 @@
+### get all
+get http://localhost:3000/api/plataforma/
+
+
+### post 
+# @name createPlataforma
+post http://localhost:3000/api/plataforma/
+Content-Type: application/json
+
+{
+  "nombre":"Nintendo Switch 2",
+  "descripcion":"fabricada por Nintendo"
+}
+
+### find one
+@id={{createPlataforma.response.body.data.id}}
+get http://localhost:3000/api/plataforma/{{id}}
+
+
+### put 
+put http://localhost:3000/api/plataforma/{{id}}
+Content-Type: application/json
+
+{
+  "nombre":"Nintendo GameCube",
+  "descripcion":"fabricada por Nintendo"
+}
+
+### delete
+delete http://localhost:3000/api/plataforma/{{id}}
