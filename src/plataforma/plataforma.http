@@ -1,30 +1,16 @@
-### get all
-get http://localhost:3000/api/plataforma/
+### Obtener todas las plataformas
+GET http://localhost:3000/api/plataforma/
 
-
-### post 
+### Crear plataforma
 # @name createPlataforma
-post http://localhost:3000/api/plataforma/
+POST http://localhost:3000/api/plataforma/
 Content-Type: application/json
 
 {
-  "nombre":"Nintendo Switch 2",
-  "descripcion":"fabricada por Nintendo"
+  "nombre": "PC",
+  "descripcion": "Plataforma de computadora personal"
 }
 
-### find one
-@id={{createPlataforma.response.body.data.id}}
-get http://localhost:3000/api/plataforma/{{id}}
-
-
-### put 
-put http://localhost:3000/api/plataforma/{{id}}
-Content-Type: application/json
-
-{
-  "nombre":"Nintendo GameCube",
-  "descripcion":"fabricada por Nintendo"
-}
-
-### delete
-delete http://localhost:3000/api/plataforma/{{id}}
+### Obtener plataforma específica
+@plataformaId = {{createPlataforma.response.body.data.id}}
+GET http://localhost:3000/api/plataforma/{{plataformaId}}

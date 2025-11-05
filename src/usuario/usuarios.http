@@ -1,68 +1,51 @@
-### Obtener todos los usuarios 
-GET http://localhost:3000/api/usuarios 
+### Obtener todos los usuarios
+GET http://localhost:3000/api/usuarios
 
-### Crear un usuario
-# @name createTomas
+### Crear usuario (para ser capitán)
+# @name createUsuario1
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
 
 {
-    "nombre": "Tomas",
-    "apellido": "Gallardo",
-    "email": "tomas.gallardo23@gmail.com",
-    "pais": "Chile",
-    "tag": "TomasCABJ",
-    "rol": "User"
+  "nombre": "Carlos",
+  "apellido": "Rodriguez",
+  "email": "carlos.rodriguez@email.com",
+  "pais": "Argentina",
+  "tag": "CarlosPro",
+  "rol": "User"
 }
 
-### ID 
-@id = {{createTomas.response.body.data.id}} 
-
-### Obtener un usuario 
-GET http://localhost:3000/api/usuarios/{{id}} 
-
-### Modificar un usuario 
-PUT http://localhost:3000/api/usuarios/{{id}} 
-Content-Type:  application/json 
-
-{ 
-    "nombre": "Lucio", 
-    "apellido": "Fernandez", 
-    "email": "lucio.fernandez98@yahoo.com", 
-    "pais": "Argentina", 
-    "tag": "xLuciox", 
-    "rol": "User" 
-} 
-
-### Publicar un usuario 
-POST http://localhost:3000/api/usuarios 
-Content-Type:  application/json 
- 
-{ 
-    "nombre": "Fernando", 
-    "apellido": "Ferandez", 
-    "email": "ferfernandez@gmail.com", 
-    "pais": "Argentina", 
-    "tag": "dobleFF", 
-    "rol":"User"
-} 
-
-### Publicar un usuario
-# @name createToDelete
+### Crear otro usuario (para equipo)
+# @name createUsuario2
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
 
 {
-    "nombre": "Lucia",
-    "apellido": "Gomez",
-    "email": "luugomez@gmail.com",
-    "pais": "Peru",
-    "tag": "LuuPro",
-    "rol": "User"
+  "nombre": "Ana",
+  "apellido": "Gomez",
+  "email": "ana.gomez@email.com",
+  "pais": "Chile",
+  "tag": "AnaGamer",
+  "rol": "User"
 }
 
-### ID 
-@idToDelete = {{createToDelete.response.body.data.id}} 
+### Crear usuario para torneo individual
+# @name createUsuario3
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
 
-### Eliminar un usuario 
-DELETE http://localhost:3000/api/usuarios/{{idToDelete}}
+{
+  "nombre": "Luis",
+  "apellido": "Martinez",
+  "email": "luis.martinez@email.com",
+  "pais": "México",
+  "tag": "LuisMV",
+  "rol": "User"
+}
+
+### Obtener usuarios específicos
+@usuario1Id = {{createUsuario1.response.body.data.id}}
+@usuario2Id = {{createUsuario2.response.body.data.id}}
+@usuario3Id = {{createUsuario3.response.body.data.id}}
+
+GET http://localhost:3000/api/usuarios/{{usuario1Id}}

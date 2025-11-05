@@ -10,6 +10,9 @@ export class TipoDeTorneo extends BaseEntity{
   
   @Property({nullable:false})
   descripcion!: string
+
+  @Property({ nullable: false })
+  esIndividual!: boolean;
   
   @OneToMany(()=>Torneo,(torneo)=>torneo.tipoDeTorneo, {cascade:[Cascade.ALL]})
   torneos = new Collection<Torneo>(this)

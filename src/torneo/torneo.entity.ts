@@ -1,4 +1,4 @@
-import { Entity, Property, ManyToOne, Rel, Cascade , OneToMany, Collection, ManyToMany } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, Rel, Cascade , OneToOne, Collection, ManyToMany } from '@mikro-orm/core';
 import { receiveMessageOnPort } from 'node:worker_threads';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 import { TipoDeTorneo } from '../tipoDeTorneo/tipoDeTorneo.entity.js';
@@ -17,21 +17,27 @@ export class Torneo extends BaseEntity {
     descripcionReglas!: string
 
     @Property({nullable: false})
-    cantidadJugadores!: number
+    cantJugadoresEquipo!: number
 
     @Property({nullable: false})
-    fechaInicio!: string
+    cantEquipos!: number
 
     @Property({nullable: false})
-    fechaFin!: string
+    cantJugadores!: number
 
     @Property({nullable: false})
-    fechaInicioIns!: string
+    fechaInicio!: Date
 
     @Property({nullable: false})
-    fechaFinIns!: string
+    fechaFin!: Date
 
     @Property({nullable: false})
+    fechaInicioIns!: Date
+
+    @Property({nullable: false})
+    fechaFinIns!: Date
+
+    @Property({nullable: true})
     resultado!: string
 
     @Property({nullable: false})
@@ -49,11 +55,14 @@ export class Torneo extends BaseEntity {
     @ManyToOne(()=>Usuario,{ nullable: false })
     creador!: Usuario;
 
-    @ManyToMany(()=>Equipo,(equipo)=>equipo.torneos,{cascade:[Cascade.ALL], owner:true})
-    equipos = new Collection<Equipo>(this);
+    /*@ManyToMany(()=>Equipo,(equipo)=>equipo.torneos,{cascade:[Cascade.ALL], owner:true})
+    equipos = new Collection<Equipo>(this);*/
 
-    @OneToMany(() => Inscripcion, inscripcion => inscripcion.torneo)
-    inscripciones = new Collection<Inscripcion>(this);
+    @OneToOne(() => Inscripcion, inscripcion => inscripcion.torneo, { 
+        cascade: [Cascade.ALL],
+        owner: true
+    })
+    inscripcion!: Rel<Inscripcion>;
     
     @ManyToOne(()=>Plataforma, {nullable:false})
     plataforma!: Rel<Plataforma>
