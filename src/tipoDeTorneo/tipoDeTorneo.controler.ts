@@ -6,7 +6,8 @@ function sanitizedTipoDeTorneoInput(req:Request, res:Response, next:NextFunction
   const source = req.body
   req.body.sanitizedInput = {
     nombre: source.nombre,
-    descripcion: source.descripcion
+    descripcion: source.descripcion,
+    esIndividual: req.body.esIndividual
   }
   Object.keys(req.body.sanitizedInput).forEach( key =>{
     if(req.body.sanitizedInput[key]===undefined){

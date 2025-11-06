@@ -1,32 +1,30 @@
-### get all
+### Obtener todos los juegos
 GET http://localhost:3000/api/juego/
 
-### post
-# @name createJuego 
+### Crear juego
+# @name createJuego
 POST http://localhost:3000/api/juego/
 Content-Type: application/json
 
 {
-  "nombre":"Hollow Knight",
-  "descripcion":"juego de bichitos",
-  "tipoDeJuego":1,
-  "plataformas":[1]
+  "nombre": "Valorant",
+  "descripcion": "Shooter táctico 5v5",
+  "tipoDeJuego": 1,
+  "plataformas": [1]
 }
 
-### get one
-@id={{createJuego.response.body.data.id}}
-GET http://localhost:3000/api/juego/{{id}}
-
-### update 
-PUT http://localhost:3000/api/juego/{{id}}
+### Crear juego individual
+# @name createJuego
+POST http://localhost:3000/api/juego/
 Content-Type: application/json
 
 {
-  "nombre":"Caballero Vacio",
-  "descripcion":"juego de bichitos",
-  "tipoDeJuego":1,
-  
+  "nombre": "Clash Royale",
+  "descripcion": "Juego de cartas",
+  "tipoDeJuego": 2,
+  "plataformas": [1]
 }
 
-### delete
-DELETE http://localhost:3000/api/juego/{{id}}
+### Obtener juego específico
+@juegoId = {{createJuego.response.body.data.id}}
+GET http://localhost:3000/api/juego/{{juegoId}}

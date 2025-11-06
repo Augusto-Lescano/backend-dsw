@@ -1,107 +1,57 @@
 ### Obtener todos los torneos
 GET http://localhost:3000/api/torneos
 
-### Crear un torneo
-# @name createEsl
+### Crear torneo POR EQUIPOS
+# @name createTorneoEquipos
 POST http://localhost:3000/api/torneos
 Content-Type: application/json
 
 {
-    "nombre": "ESL Pro League Season 25 - CS2",
-    "descripcionReglas": "Formato: 16 equipos, grupos GSL + eliminatorias BO3...",
-    "cantidadJugadores": 16,
-    "fechaInicio": "2024-06-15T18:00:00", 
-    "fechaFin": "2024-06-30T23:00:00",
-    "fechaInicioIns": "2024-04-01T00:00:00",
-    "fechaFinIns": "2024-05-31T23:59:00",
-    "resultado": "Team Vitality campeón (3-1 vs FaZe Clan)",
-    "region": "Global",
-    "estado": "finalizado",
-    "tipoDeTorneo":1,
-    "juego":1,
-    "creador":1,
-    "plataforma":1
+  "nombre": "El inicio",
+  "descripcionReglas": "combate táctico en rondas, donde el primer equipo en ganar 13 rondas gana el mapa, y el primer equipo en ganar 2 mapas se lleva la victoria",
+  "cantJugadoresEquipo": 5,
+  "cantEquipos": 2,
+  "cantJugadores": 10,
+  "fechaInicio": "2024-06-15T18:00:00Z",
+  "fechaFin": "2024-06-30T23:00:00Z",
+  "fechaInicioIns": "2024-04-01T00:00:00Z",
+  "fechaFinIns": "2024-05-31T23:59:00Z",
+  "resultado": "Pendiente",
+  "region": "Global",
+  "estado": "inscripciones",
+  "tipoDeTorneo": 2,
+  "juego": 2,
+  "creador": 1,
+  "plataforma": 1
 }
 
-### ID
-@id = {{createEsl.response.body.data.id}}
-
-### Obtener un torneo
-GET http://localhost:3000/api/torneos/{{id}}
-
-### Modificar un torneo (Entero)
-PUT http://localhost:3000/api/torneos/{{id}}
-Content-Type: application/json
-
-{
-    "nombre": "Worlds Championship 2025",
-    "descripcionReglas": "Formato: Fase de grupos + eliminatorias BO5...",
-    "cantidadJugadores": 16,
-    "fechaInicio": "2024-10-01T15:00:00",
-    "fechaFin": "2024-11-15T22:00:00",
-    "fechaInicioIns": "2024-07-01T00:00:00",
-    "fechaFinIns": "2024-09-15T23:59:00",
-    "resultado": "Pendiente",
-    "region": "Global",
-    "estado": "En curso",
-    "tipoDeTorneo":2,
-    "juego":6,
-    "usuarios":[1,3]
-}
-
-### Agregar un torneo
+### Crear torneo INDIVIDUAL
+# @name createTorneoIndividual
 POST http://localhost:3000/api/torneos
 Content-Type: application/json
 
 {
-    "nombre": "WPL Pro League - Valorant",
-    "descripcionReglas": "Formato: 8 equipos",
-    "cantidadJugadores": 16,
-    "fechaInicio": "2024-07-15T18:00:00", 
-    "fechaFin": "2024-07-30T23:00:00",
-    "fechaInicioIns": "2024-05-01T00:00:00",
-    "fechaFinIns": "2024-06-31T23:59:00",
-    "resultado": "Team Fnatic campeón (3-1 vs Navi)",
-    "region": "Global",
-    "estado": "finalizado",
-    "tipoDeTorneo":2,
-    "juego":6,
-    "usuarios":[1,2]
+  "nombre": "Baneen las EVO",
+  "descripcionReglas": "Duelos 1vs1, eliminación directa, BO3",
+  "cantJugadoresEquipo": 1,
+  "cantEquipos": 10,
+  "cantJugadores": 10,
+  "fechaInicio": "2024-07-01T15:00:00Z",
+  "fechaFin": "2024-07-02T22:00:00Z",
+  "fechaInicioIns": "2024-05-01T00:00:00Z",
+  "fechaFinIns": "2024-06-20T23:59:00Z",
+  "resultado": "Pendiente",
+  "region": "Latinoamérica",
+  "estado": "inscripciones",
+  "tipoDeTorneo": 1,
+  "juego": 3,
+  "creador": 2,
+  "plataforma": 1
 }
 
-### Agregar un torneo
-# @name createTorneoToDelete
-POST http://localhost:3000/api/torneos
-Content-Type: application/json
+### Obtener torneos específicos
+@torneoEquiposId = {{createTorneoEquipos.response.body.data.id}}
+@torneoIndividualId = {{createTorneoIndividual.response.body.data.id}}
 
-{
-    "nombre": "Royale con queso",
-    "descripcionReglas": "Formato: 1vs1",
-    "cantidadJugadores": 10,
-    "fechaInicio": "2024-12-12T18:00:00", 
-    "fechaFin": "2024-12-12T23:00:00",
-    "fechaInicioIns": "2024-10-01T00:00:00",
-    "fechaFinIns": "2024-10-20T23:59:00",
-    "resultado": "Undefined",
-    "region": "Global",
-    "estado": "En curso",
-    "tipoDeTorneo":1,
-    "juego":6,
-    "usuarios":[1,2]
-}
-
-### Eliminar un torneo
-@idToDelete = {{createTorneoToDelete.response.body.data.id}}
-DELETE http://localhost:3000/api/torneos/{{idToDelete}}
-
-### Actualizar parte de un torneo
-PATCH http://localhost:3000/api/torneos/{{idToDelete}}
-Content-Type: application/json
-
-{
-    "resultado": "T1 campeón (3-2 vs Weibo Gaming)",
-    "estado": "Finalizado"
-}
-
-### Eliminar un torneo
-DELETE http://localhost:3000/api/torneos/{{idToDelete}}
+GET http://localhost:3000/api/torneos/{{torneoEquiposId}}
+GET http://localhost:3000/api/torneos/{{torneoIndividualId}}

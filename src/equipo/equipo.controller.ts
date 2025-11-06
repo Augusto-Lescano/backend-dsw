@@ -6,7 +6,9 @@ const em = orm.em;
 
 function sanitizeEquipoInput(req:Request, res:Response, next:NextFunction){
     req.body.sanitizedInput = {
-        nombre: req.body.nombre
+        nombre: req.body.nombre,
+        capitan: req.body.capitan,  
+        jugadores: req.body.jugadores
     }
 
     Object.keys(req.body.sanitizedInput).forEach(key=>{ 
@@ -20,7 +22,7 @@ function sanitizeEquipoInput(req:Request, res:Response, next:NextFunction){
 
 async function findAll(req:Request, res:Response){
     try {
-        const equipos = await em.find(Equipo,{},{populate:["usuarios", "torneos", /*"inscripciones"*/]})
+        const equipos = await em.find(Equipo,{},{populate:["capitan", "jugadores", "inscripcion"]})
 
         res.status(200).json({
             message:'Se encontraron todos los equipos',
@@ -34,7 +36,7 @@ async function findAll(req:Request, res:Response){
 async function findOne(req:Request,res: Response){ 
     try { 
         const id = Number.parseInt(req.params.id) 
-        const equipo = await em.findOneOrFail(Equipo,{id},{populate:["usuarios", "torneos", /*"inscripciones"*/]}) 
+        const equipo = await em.findOneOrFail(Equipo,{id},{populate:["capitan", "jugadores", "inscripcion","inscripcion.torneo"]}) 
 
         res.status(200).json({
             message:'Se encontró el equipo',

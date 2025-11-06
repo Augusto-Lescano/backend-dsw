@@ -1,62 +1,17 @@
-### get all
-GET http://localhost:3000/api/inscripcion/
-
-### post
-# @name createInscripcion
-POST http://localhost:3000/api/inscripcion/
+### Inscribir EQUIPO en torneo por equipos
+# @name inscribirEquipo
+POST http://localhost:3000/api/torneos/{{torneoEquiposId}}/inscribir
 Content-Type: application/json
 
 {
-  "estado":"Activa",
-  "fecha": "2024-01-01T00:00:00",
-  "usuario":1,
-  "torneo":2
+  "equipoId": {{equipoId}}
 }
 
-
-### ID
-@id = {{createInscripcion.response.body.data.id}}
-
-### Obtener un torneo
-GET http://localhost:3000/api/inscripcion/{{id}}
-
-### Modificar un torneo (Entero)
-PUT http://localhost:3000/api/inscripcion/{{id}}
+### Inscribir USUARIO INDIVIDUAL en torneo individual
+# @name inscribirIndividual
+POST http://localhost:3000/api/torneos/{{torneoIndividualId}}/inscribir
 Content-Type: application/json
 
 {
-  "estado":"Cerrada",
-  "fecha": "2024-01-01T00:00:00",
-  "usuario":1,
-  "torneo":2
+  "usuarioId": {{usuario3Id}}
 }
-
-### post2
-# @name createInscripcion2
-POST http://localhost:3000/api/inscripcion/
-Content-Type: application/json
-
-{
-  "estado":"Activa",
-  "fecha": "2025-12-01T00:00:00",
-  "usuario":2,
-  "torneo":4
-}
-
-### post3
-# @name createToDelete
-POST http://localhost:3000/api/inscripcion/
-Content-Type: application/json
-
-{
-  "estado":"Cerrada",
-  "fecha": "2025-12-01T00:00:00",
-  "usuario":2,
-  "torneo":4
-}
-
-### ID 
-@idToDelete = {{createToDelete.response.body.data.id}} 
-
-### Eliminar un usuario 
-DELETE http://localhost:3000/api/inscripcion/{{idToDelete}}

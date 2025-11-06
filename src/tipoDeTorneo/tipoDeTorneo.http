@@ -1,39 +1,38 @@
-### get all
+### Obtener todos los tipos de torneo
 GET http://localhost:3000/api/tipoDeTorneo/
 
-### post
-# @name createTipoDeTorneo
+### Crear tipo de torneo INDIVIDUAL
+# @name createTipoIndividual
 POST http://localhost:3000/api/tipoDeTorneo/
 Content-Type: application/json
 
 {
-  "nombre":"Supervivencia",
-  "descripcion":"10 jugadores se enfrentan entre si, donde solo uno queda en pie"
+  "nombre": "1vs1 Duelos",
+  "descripcion": "Duelos uno contra uno, eliminación directa",
+  "esIndividual": true
 }
 
-### post
+### Crear tipo de torneo POR EQUIPOS
+# @name createTipoEquipos
 POST http://localhost:3000/api/tipoDeTorneo/
 Content-Type: application/json
 
 {
-  "nombre":"Torneo por equipos",
-  "descripcion":"Varios equipos se enfrentan para decidir el vencedor"
+  "nombre": "Torneo por Equipos",
+  "descripcion": "Competencia por equipos de 5 jugadores",
+  "esIndividual": false
 }
 
-###id
-@id={{createTipoDeTorneo.response.body.data.id}}
+### Obtener un tipo de torneo específico
+@tipoTorneoId = {{createTipoIndividual.response.body.data.id}}
+GET http://localhost:3000/api/tipoDeTorneo/{{tipoTorneoId}}
 
-### get one
-GET http://localhost:3000/api/tipoDeTorneo/{{id}}
-
-### put
-PUT http://localhost:3000/api/tipoDeTorneo/{{id}}
+### Actualizar tipo de torneo
+PUT http://localhost:3000/api/tipoDeTorneo/{{tipoTorneoId}}
 Content-Type: application/json
 
 {
-  "nombre":"Batalla Campal",
-  "descripcion":"10 jugadores se enfrentan entre si, donde solo uno queda en pie"
+  "nombre": "Batalla 1vs1",
+  "descripcion": "Duelos intensos uno contra uno",
+  "esIndividual": true
 }
-
-### DELETE
-DELETE http://localhost:3000/api/tipoDeTorneo/{{id}}
