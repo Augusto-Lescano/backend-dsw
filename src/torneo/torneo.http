@@ -7,11 +7,11 @@ POST http://localhost:3000/api/torneos
 Content-Type: application/json
 
 {
-  "nombre": "ESL Pro League Season 25",
-  "descripcionReglas": "Formato: 16 equipos, grupos GSL + eliminatorias BO3",
+  "nombre": "El inicio",
+  "descripcionReglas": "combate táctico en rondas, donde el primer equipo en ganar 13 rondas gana el mapa, y el primer equipo en ganar 2 mapas se lleva la victoria",
   "cantJugadoresEquipo": 5,
-  "cantEquipos": 16,
-  "cantJugadores": 80,
+  "cantEquipos": 2,
+  "cantJugadores": 10,
   "fechaInicio": "2024-06-15T18:00:00Z",
   "fechaFin": "2024-06-30T23:00:00Z",
   "fechaInicioIns": "2024-04-01T00:00:00Z",
@@ -19,10 +19,10 @@ Content-Type: application/json
   "resultado": "Pendiente",
   "region": "Global",
   "estado": "inscripciones",
-  "tipoDeTorneo": {{createTipoEquipos.response.body.data.id}},
-  "juego": {{juegoId}},
-  "creador": {{usuario1Id}},
-  "plataforma": {{plataformaId}}
+  "tipoDeTorneo": 2,
+  "juego": 2,
+  "creador": 1,
+  "plataforma": 1
 }
 
 ### Crear torneo INDIVIDUAL
@@ -31,11 +31,11 @@ POST http://localhost:3000/api/torneos
 Content-Type: application/json
 
 {
-  "nombre": "1vs1 Championship 2024",
+  "nombre": "Baneen las EVO",
   "descripcionReglas": "Duelos 1vs1, eliminación directa, BO3",
   "cantJugadoresEquipo": 1,
-  "cantEquipos": 32,
-  "cantJugadores": 32,
+  "cantEquipos": 10,
+  "cantJugadores": 10,
   "fechaInicio": "2024-07-01T15:00:00Z",
   "fechaFin": "2024-07-02T22:00:00Z",
   "fechaInicioIns": "2024-05-01T00:00:00Z",
@@ -43,10 +43,10 @@ Content-Type: application/json
   "resultado": "Pendiente",
   "region": "Latinoamérica",
   "estado": "inscripciones",
-  "tipoDeTorneo": {{createTipoIndividual.response.body.data.id}},
-  "juego": {{juegoId}},
-  "creador": {{usuario2Id}},
-  "plataforma": {{plataformaId}}
+  "tipoDeTorneo": 1,
+  "juego": 3,
+  "creador": 2,
+  "plataforma": 1
 }
 
 ### Obtener torneos específicos

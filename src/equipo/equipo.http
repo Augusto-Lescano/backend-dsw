@@ -1,57 +1,17 @@
-## Obtener todos los equipos
+### Obtener todos los equipos
 GET http://localhost:3000/api/equipos
 
-### Crear un equipo
-# @name crearEquipo
+### Crear equipo
+# @name createEquipo
 POST http://localhost:3000/api/equipos
 Content-Type: application/json
 
 {
-    "nombre": "SKT T1 Telecom"
+  "nombre": "Team Phoenix",
+  "capitan": 1,
+  "jugadores": [1, 2]
 }
 
-### ID
-@id = {{crearEquipo.response.body.data.id}}
-
-### Obtener un equipo
-GET http://localhost:3000/api/equipos/{{id}}
-
-### Modificar un equipo (Entero)
-PUT http://localhost:3000/api/equipos/{{id}}
-Content-Type: application/json
-
-{
-    "nombre": "SKT T1"
-}
-
-### Agregar un equipo
-POST http://localhost:3000/api/equipos
-Content-Type: application/json
-
-{
-    "nombre": "G2 Esports"
-}
-
-### Agregar un equipo
-# @name createEquipoToDelete
-POST http://localhost:3000/api/equipos
-Content-Type: application/json
-
-{
-    "nombre": "Fnatic"
-}
-
-### Eliminar un equipo
-@idToDelete = {{createEquipoToDelete.response.body.data.id}}
-DELETE http://localhost:3000/api/equipos/{{idToDelete}}
-
-### Actualizar parte de un equipo
-PATCH http://localhost:3000/api/equipos/{{idToDelete}}
-Content-Type: application/json
-
-{
-    "nombre": "Gen.G"
-}
-
-### Eliminar un equipo
-DELETE http://localhost:3000/api/equipos/{{idToDelete}}
+### Obtener equipo específico
+@equipoId = {{createEquipo.response.body.data.id}}
+GET http://localhost:3000/api/equipos/{{equipoId}}

@@ -29,8 +29,8 @@ POST http://localhost:3000/api/tipoDeJuego/
 Content-Type: application/json
 
 {
-  "nombre":"Terror",
-  "descripcion":"Juegos donde hay Terror"
+  "nombre":"Estrategia",
+  "descripcion":"Juegos donde hay Estrategia"
 }
 
 ### delete

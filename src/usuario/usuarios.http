@@ -48,4 +48,4 @@ Content-Type: application/json
 @usuario2Id = {{createUsuario2.response.body.data.id}}
 @usuario3Id = {{createUsuario3.response.body.data.id}}
 
-GET http://localhost:3000/api/usuarios/{{usuario1Id}}
+GET http://localhost:3000/api/usuarios/1

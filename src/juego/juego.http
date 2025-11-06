@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "nombre": "Valorant",
   "descripcion": "Shooter táctico 5v5",
-  "tipoDeJuego": 2,
+  "tipoDeJuego": 1,
   "plataformas": [1]
 }
 
@@ -21,7 +21,7 @@ Content-Type: application/json
 {
   "nombre": "Clash Royale",
   "descripcion": "Juego de cartas",
-  "tipoDeJuego": 1,
+  "tipoDeJuego": 2,
   "plataformas": [1]
 }
 
