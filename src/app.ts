@@ -11,9 +11,14 @@ import { plataformaRouter } from './plataforma/plataforma.routes.js';
 import { orm, syncSchema } from './shared/db/orm.js';
 import { RequestContext } from '@mikro-orm/core';
 import { inscripcionRouter } from './inscripcion/inscripcion.routes.js';
+import cors from "cors"; 
+
+
 
 const app = express();
 app.use(express.json());
+
+app.use(cors());
 
 //Luego de los middlewares base
 app.use((req, res, next) => {
