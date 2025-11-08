@@ -59,19 +59,23 @@ Content-Type: application/json
   "contrasenia": "gianmarco123"
 }
 
+### 2. GUARDAR TOKEN MANUALMENTE (mirar la respuesta del login)
+# La respuesta debería incluir un Set-Cookie header
+# Copia el valor del token y úsalo abajo
+
 ### 3. OBTENER TODOS LOS USUARIOS (requiere admin)
 GET http://localhost:3000/api/usuarios
-Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+Cookie: token_acceso=Token_de_admin_aca
 
 ### 4. OBTENER UN USUARIO ESPECÍFICO (requiere admin)
 @userId = {{createUser1.response.body.data.id}}
 GET http://localhost:3000/api/usuarios/{{userId}}
-Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+Cookie: token_acceso=Token_de_admin_aca
 
 ### 5. MODIFICAR USUARIO COMPLETO (requiere ser el dueño o admin)
 PUT http://localhost:3000/api/usuarios/{{userId}}
 Content-Type: application/json
-Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+Cookie: token_acceso=Token_de_admin_aca
 
 {
   "nombre": "Luke",
@@ -86,7 +90,7 @@ Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
 ### 6. MODIFICAR USUARIO PARCIALMENTE (requiere ser el dueño o admin)
 PATCH http://localhost:3000/api/usuarios/{{userId}}
 Content-Type: application/json
-Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+Cookie: token_acceso=Token_de_admin_aca
 
 {
   "nombre": "Lucas",
@@ -97,15 +101,15 @@ Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
 ### NOTA: Ejecutar este solo si quieres probar la eliminación
 # @name deleteUser
 DELETE http://localhost:3000/api/usuarios/{{userId}}
-Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+Cookie: token_acceso=Token_de_admin_aca
 
 ### 8. LOGOUT
 POST http://localhost:3000/api/usuarios/logout
-Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+Cookie: token_acceso=Token_de_admin_aca
 
 ### 9. RUTA PROTEGIDA (para probar autenticación)
 GET http://localhost:3000/api/usuarios/ruta/protegida
-Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+Cookie: token_acceso=Token_de_admin_aca
 
 ### =========================================
 ### MÉTODOS ALTERNATIVOS - LOGIN COMO USUARIO NORMAL
@@ -139,8 +143,8 @@ Cookie: token_acceso={{userLogin.response.headers.Set-Cookie}}
 
 ### Ver usuario 2 específico
 GET http://localhost:3000/api/usuarios/{{user2Id}}
-Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+Cookie: token_acceso=Token_de_admin_aca
 
 ### Ver usuario 3 específico
 GET http://localhost:3000/api/usuarios/{{user3Id}}
-Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+Cookie: token_acceso=Token_de_admin_aca
