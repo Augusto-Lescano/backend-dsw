@@ -1,40 +1,105 @@
-### get 
-GET http://localhost:3000/api/tipoDeJuego/
+### =========================================
+### MÉTODOS DE PRUEBA - TIPOS DE JUEGO (SOLO ADMINS)
+### =========================================
 
-### post
-# @name createTipoDeJuego
-POST http://localhost:3000/api/tipoDeJuego/
+### 0. PRIMERO: LOGIN COMO ADMIN
+# @name adminLogin
+POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
 
 {
-  "nombre":"Accion",
-  "descripcion":"Juegos donde hay accion"
+  "identifier": "emicerto",
+  "contrasenia": "emicerto123"
 }
 
-### put
-@id={{createTipoDeJuego.response.body.data.id}}
-PUT http://localhost:3000/api/tipoDeJuego/{{id}}
+### 1. OBTENER TODOS LOS TIPOS DE JUEGO (Admin)
+GET http://localhost:3000/api/tipoDeJuego
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 2. CREAR TIPO DE JUEGO (Admin)
+# @name createTipoJuego
+POST http://localhost:3000/api/tipoDeJuego
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Battle Royale",
+  "descripcion": "Juegos donde múltiples jugadores luchan hasta que queda uno solo en pie"
+}
+
+### 3. OBTENER TIPO DE JUEGO ESPECÍFICO (Admin)
+@tipoJuegoId = {{createTipoJuego.response.body.data.id}}
+GET http://localhost:3000/api/tipoDeJuego/{{tipoJuegoId}}
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 4. ACTUALIZAR TIPO DE JUEGO (Admin)
+PUT http://localhost:3000/api/tipoDeJuego/{{tipoJuegoId}}
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Battle Royale - Nueva Generación",
+  "descripcion": "Juegos battle royale con mecánicas avanzadas y construcción"
+}
+
+### 5. ELIMINAR TIPO DE JUEGO (Admin)
+DELETE http://localhost:3000/api/tipoDeJuego/{{tipoJuegoId}}
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 6. INTENTAR CREAR TIPO DE JUEGO COMO USUARIO NORMAL (Debería fallar)
+# @name userLogin
+POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
 
 {
-  "nombre":"Accion",
-  "descripcion":"Juegos donde hay mucha accion"
+  "identifier": "test@test.com",
+  "contrasenia": "test12345"
 }
 
-### get one
-GET  http://localhost:3000/api/tipoDeJuego/{{id}}
-
-### post 
-POST http://localhost:3000/api/tipoDeJuego/
+POST http://localhost:3000/api/tipoDeJuego
 Content-Type: application/json
+Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
 
 {
-  "nombre":"Estrategia",
-  "descripcion":"Juegos donde hay Estrategia"
+  "nombre": "Tipo No Autorizado",
+  "descripcion": "Este tipo no debería crearse"
 }
 
-### delete
-DELETE  http://localhost:3000/api/tipoDeJuego/{{id}}
+### 7. INTENTAR OBTENER TIPOS SIN AUTENTICACIÓN (Debería fallar)
+GET http://localhost:3000/api/tipoDeJuego
 
+### 8. CREAR MÚLTIPLES TIPOS DE JUEGO (Admin)
+POST http://localhost:3000/api/tipoDeJuego
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
+{
+  "nombre": "MOBA",
+  "descripcion": "Multiplayer Online Battle Arena - equipos de héroes con habilidades únicas"
+}
 
+###
+
+POST http://localhost:3000/api/tipoDeJuego
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "RPG",
+  "descripcion": "Role Playing Games - juegos de rol con progresión de personajes"
+}
+
+###
+
+POST http://localhost:3000/api/tipoDeJuego
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Simulación",
+  "descripcion": "Juegos que simulan actividades de la vida real o escenarios específicos"
+}
+
+### 9. VERIFICAR QUE LOS TIPOS SE CREARON (Admin)
+GET http://localhost:3000/api/tipoDeJuego
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
