@@ -73,7 +73,7 @@ GET http://localhost:3000/api/usuarios/{{userId}}
 Cookie: token_acceso=Token_de_admin_aca
 
 ### 5. MODIFICAR USUARIO COMPLETO (requiere ser el dueño o admin)
-PUT http://localhost:3000/api/usuarios/{{userId}}
+PUT http://localhost:3000/api/usuarios/1
 Content-Type: application/json
 Cookie: token_acceso=Token_de_admin_aca
 
