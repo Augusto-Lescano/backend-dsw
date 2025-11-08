@@ -1,17 +1,113 @@
-### Obtener todos los equipos
-GET http://localhost:3000/api/equipos
+### =========================================
+### MÉTODOS DE PRUEBA - EQUIPOS
+### =========================================
 
-### Crear equipo
-# @name createEquipo
-POST http://localhost:3000/api/equipos
+### 0. LOGIN COMO USUARIO NORMAL
+# @name userLogin
+POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
 
 {
-  "nombre": "Team Phoenix",
-  "capitan": 1,
-  "jugadores": [1, 2]
+  "identifier": "emicerto@torneo.com",
+  "contrasenia": "emicerto123"
 }
 
-### Obtener equipo específico
+### 1. CREAR EQUIPO COMO USUARIO NORMAL (Permitido)
+# @name createEquipo
+POST http://localhost:3000/api/equipos
+Content-Type: application/json
+Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Equipo Alpha",
+  "descripcion": "Equipo competitivo de CS2",
+  "capitan": 2
+}
+
+### 2. ACTUALIZAR PROPIO EQUIPO COMO DUEÑO (Permitido)
 @equipoId = {{createEquipo.response.body.data.id}}
+PUT http://localhost:3000/api/equipos/{{equipoId}}
+Content-Type: application/json
+Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Equipo Alpha - Actualizado",
+  "descripcion": "Equipo competitivo de CS2 - Versión mejorada"
+}
+
+### 3. ACTUALIZACIÓN PARCIAL PROPIO EQUIPO (Permitido)
+PATCH http://localhost:3000/api/equipos/{{equipoId}}
+Content-Type: application/json
+Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
+
+{
+  "descripcion": "Nueva descripción del equipo"
+}
+
+### 4. LOGIN COMO OTRO USUARIO
+# @name otherUserLogin
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "identifier": "otro@usuario.com",
+  "contrasenia": "password123"
+}
+
+### 5. INTENTAR ACTUALIZAR EQUIPO AJENO (Debería fallar)
+PUT http://localhost:3000/api/equipos/{{equipoId}}
+Content-Type: application/json
+Cookie: token_acceso={{otherUserLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Equipo Hackeado"
+}
+
+### 6. LOGIN COMO ADMIN
+# @name adminLogin
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "identifier": "admin@torneos.com",
+  "contrasenia": "Admin123!"
+}
+
+### 7. ADMIN PUEDE VER TODOS LOS EQUIPOS (Permitido)
+GET http://localhost:3000/api/equipos
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 8. ADMIN PUEDE VER EQUIPO ESPECÍFICO (Permitido)
 GET http://localhost:3000/api/equipos/{{equipoId}}
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 9. ADMIN PUEDE ACTUALIZAR CUALQUIER EQUIPO (Permitido)
+PUT http://localhost:3000/api/equipos/{{equipoId}}
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Equipo Alpha - Modificado por Admin",
+  "descripcion": "Equipo modificado por administración"
+}
+
+### 10. ADMIN PUEDE ELIMINAR EQUIPO (Permitido)
+DELETE http://localhost:3000/api/equipos/{{equipoId}}
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 11. USUARIO NORMAL INTENTA ELIMINAR EQUIPO (Debería fallar)
+# Crear otro equipo para probar eliminación
+# @name createEquipo2
+POST http://localhost:3000/api/equipos
+Content-Type: application/json
+Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Equipo Beta",
+  "descripcion": "Otro equipo de prueba",
+  "capitan": 2
+}
+
+@equipoId2 = {{createEquipo2.response.body.data.id}}
+DELETE http://localhost:3000/api/equipos/{{equipoId2}}
+Cookie: token_acceso={{userLogin.response.headers.set-cookie}}

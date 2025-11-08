@@ -1,7 +1,4 @@
 import { orm } from "../../shared/db/orm.js";
-//import { inscribirEquipoEnTorneo } from "./inscribirEquipo.js";
-//import { inscribirUsuarioEnTorneo } from "./inscribirIndividual.js";
-//import { Torneo } from "../../torneo/torneo.entity.js";
 
 const em = orm.em;
 

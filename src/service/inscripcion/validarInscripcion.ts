@@ -1,5 +1,4 @@
 import { FilterQuery } from "@mikro-orm/core";
-import { Inscripcion } from "../../inscripcion/inscripcion.entity.js";
 import { InscripcionIndividual } from "../../inscripcion/inscripcionIndividual.entity.js";
 import { orm } from "../../shared/db/orm.js";
 import { Usuario } from "../../usuario/usuario.entity.js";

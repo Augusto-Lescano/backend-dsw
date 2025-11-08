@@ -2,7 +2,6 @@ import { Collection, Entity, Property, OneToMany, Cascade, ManyToMany } from "@m
 import { BaseEntity } from "../shared/db/baseEntity.entity.js";
 import { Torneo } from "../torneo/torneo.entity.js";
 import { Equipo } from "../equipo/equipo.entity.js";
-import { Inscripcion } from "../inscripcion/inscripcion.entity.js";
 import { InscripcionIndividual } from "../inscripcion/inscripcionIndividual.entity.js";
 
 @Entity()
@@ -16,22 +15,24 @@ export class Usuario extends BaseEntity {
   @Property({ nullable: false, unique: true })
   email!: string;
 
-  @Property({ nullable: true })
-  pais?: string;
+  @Property({ nullable: false, unique: true })
+  nombreUsuario!: string;
 
-  @Property({ nullable: true })
-  tag?: string;
+  @Property({ nullable: false })
+  contrasenia!: string;
 
-  @Property({ nullable: true })
-  rol?: string;
+  @Property({ nullable: false })
+  pais!: string;
 
-  @ManyToMany(()=>Equipo,(equipo)=>equipo.jugadores,{cascade:[Cascade.ALL]})
+  @Property({ nullable: false, default: 'user' }) //Valor por defecto
+  rol!: string;
+
+  @ManyToMany(() => Equipo, (equipo) => equipo.jugadores, { cascade: [Cascade.ALL] })
   equipos = new Collection<Equipo>(this);
 
   @OneToMany(() => Torneo, torneo => torneo.creador)
   torneosCreados = new Collection<Torneo>(this)
 
   @OneToMany(() => InscripcionIndividual, inscripcion => inscripcion.usuario)
-  inscripciones = new Collection<Inscripcion>(this);
-
+  inscripciones = new Collection<InscripcionIndividual>(this);
 }

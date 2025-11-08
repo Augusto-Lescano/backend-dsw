@@ -1,17 +1,74 @@
-### Inscribir EQUIPO en torneo por equipos
-# @name inscribirEquipo
-POST http://localhost:3000/api/torneos/{{torneoEquiposId}}/inscribir
+### =========================================
+### MÉTODOS DE PRUEBA - INSCRIPCIONES (SOLO ADMINS)
+### =========================================
+
+### 0. LOGIN COMO ADMIN
+# @name adminLogin
+POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
 
 {
-  "equipoId": {{equipoId}}
+  "identifier": "gianmarco@torneos.com",
+  "contrasenia": "gianmarco123"
 }
 
-### Inscribir USUARIO INDIVIDUAL en torneo individual
-# @name inscribirIndividual
-POST http://localhost:3000/api/torneos/{{torneoIndividualId}}/inscribir
+### 1. OBTENER TODAS LAS INSCRIPCIONES (Admin)
+GET http://localhost:3000/api/inscripcion
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 2. CREAR INSCRIPCIÓN MANUAL (Admin - si es necesario)
+# @name createInscripcion
+POST http://localhost:3000/api/inscripcion
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "torneoId": 1,
+  "equipoId": 1,
+  "estado": "confirmada",
+  "fechaApertura": "2024-06-01T00:00:00Z",
+  "fechaCierre": "2024-06-30T23:59:00Z"
+}
+
+### 3. OBTENER INSCRIPCIÓN ESPECÍFICA (Admin)
+@inscripcionId = {{createInscripcion.response.body.data.id}}
+GET http://localhost:3000/api/inscripcion/{{inscripcionId}}
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 4. ACTUALIZAR INSCRIPCIÓN (Admin)
+PUT http://localhost:3000/api/inscripcion/{{inscripcionId}}
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "estado": "cerrada",
+  "motivo": "Inscripciones cerradas por admin"
+}
+
+### 5. ELIMINAR INSCRIPCIÓN (Admin)
+DELETE http://localhost:3000/api/inscripcion/{{inscripcionId}}
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 6. VER INSCRIPCIONES DE UN TORNEO ESPECÍFICO (Admin)
+GET http://localhost:3000/api/inscripcion?torneoId=1
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### =========================================
+### PRUEBAS DE SEGURIDAD (deberían fallar)
+### =========================================
+
+### 7. INTENTAR ACCEDER COMO USUARIO NORMAL (Debería fallar)
+# @name userLogin
+POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
 
 {
-  "usuarioId": {{usuario3Id}}
+  "identifier": "test@test.com",
+  "contrasenia": "test12345"
 }
+
+GET http://localhost:3000/api/inscripcion
+Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
+
+### 8. INTENTAR ACCEDER SIN AUTENTICACIÓN (Debería fallar)
+GET http://localhost:3000/api/inscripcion

@@ -1,57 +1,217 @@
-### Obtener todos los torneos
+### =========================================
+### MÉTODOS DE PRUEBA - TORNEOS
+### =========================================
+
+### 1. OBTENER TODOS LOS TORNEOS (Público)
 GET http://localhost:3000/api/torneos
 
-### Crear torneo POR EQUIPOS
+### 2. CREAR TORNEO POR EQUIPOS (Requiere Admin)
 # @name createTorneoEquipos
 POST http://localhost:3000/api/torneos
 Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
 
 {
-  "nombre": "El inicio",
-  "descripcionReglas": "combate táctico en rondas, donde el primer equipo en ganar 13 rondas gana el mapa, y el primer equipo en ganar 2 mapas se lleva la victoria",
+  "nombre": "Torneo CS2 Equipos",
+  "descripcionReglas": "Combate táctico en rondas, primer equipo en ganar 13 rondas gana el mapa, mejor de 3 mapas",
   "cantJugadoresEquipo": 5,
-  "cantEquipos": 2,
-  "cantJugadores": 10,
-  "fechaInicio": "2024-06-15T18:00:00Z",
-  "fechaFin": "2024-06-30T23:00:00Z",
-  "fechaInicioIns": "2024-04-01T00:00:00Z",
-  "fechaFinIns": "2024-05-31T23:59:00Z",
+  "cantEquipos": 8,
+  "cantJugadores": 40,
+  "fechaInicio": "2024-07-15T18:00:00Z",
+  "fechaFin": "2024-07-20T23:00:00Z",
+  "fechaInicioIns": "2024-06-01T00:00:00Z",
+  "fechaFinIns": "2024-07-10T23:59:00Z",
+  "resultado": "Pendiente",
+  "region": "Latinoamérica",
+  "estado": "inscripciones",
+  "tipoDeTorneo": 2,
+  "juego": 1,
+  "creador": 1,
+  "plataforma": 1
+}
+
+### 3. CREAR TORNEO INDIVIDUAL (Requiere Admin)
+# @name createTorneoIndividual
+POST http://localhost:3000/api/torneos
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+
+{
+  "nombre": "Torneo 1v1 Valorant",
+  "descripcionReglas": "Duelos 1vs1, eliminación directa, mejor de 3 rondas",
+  "cantJugadoresEquipo": 1,
+  "cantEquipos": 16,
+  "cantJugadores": 16,
+  "fechaInicio": "2024-08-01T15:00:00Z",
+  "fechaFin": "2024-08-02T22:00:00Z",
+  "fechaInicioIns": "2024-07-01T00:00:00Z",
+  "fechaFinIns": "2024-07-25T23:59:00Z",
   "resultado": "Pendiente",
   "region": "Global",
   "estado": "inscripciones",
-  "tipoDeTorneo": 2,
+  "tipoDeTorneo": 1,
   "juego": 2,
   "creador": 1,
   "plataforma": 1
 }
 
-### Crear torneo INDIVIDUAL
-# @name createTorneoIndividual
-POST http://localhost:3000/api/torneos
-Content-Type: application/json
-
-{
-  "nombre": "Baneen las EVO",
-  "descripcionReglas": "Duelos 1vs1, eliminación directa, BO3",
-  "cantJugadoresEquipo": 1,
-  "cantEquipos": 10,
-  "cantJugadores": 10,
-  "fechaInicio": "2024-07-01T15:00:00Z",
-  "fechaFin": "2024-07-02T22:00:00Z",
-  "fechaInicioIns": "2024-05-01T00:00:00Z",
-  "fechaFinIns": "2024-06-20T23:59:00Z",
-  "resultado": "Pendiente",
-  "region": "Latinoamérica",
-  "estado": "inscripciones",
-  "tipoDeTorneo": 1,
-  "juego": 3,
-  "creador": 2,
-  "plataforma": 1
-}
-
-### Obtener torneos específicos
+### 4. OBTENER TORNEO ESPECÍFICO (Público)
 @torneoEquiposId = {{createTorneoEquipos.response.body.data.id}}
 @torneoIndividualId = {{createTorneoIndividual.response.body.data.id}}
 
 GET http://localhost:3000/api/torneos/{{torneoEquiposId}}
+
+### 5. OBTENER TORNEO INDIVIDUAL (Público)
 GET http://localhost:3000/api/torneos/{{torneoIndividualId}}
+
+### 6. ACTUALIZAR TORNEO COMPLETO (Requiere Admin)
+PUT http://localhost:3000/api/torneos/{{torneoEquiposId}}
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+
+{
+  "nombre": "Torneo CS2 Equipos - EDICIÓN ESPECIAL",
+  "descripcionReglas": "Combate táctico en rondas actualizado, primer equipo en ganar 16 rondas gana el mapa",
+  "cantEquipos": 16,
+  "region": "Sudamérica",
+  "estado": "en_curso"
+}
+
+### 7. ACTUALIZAR TORNEO PARCIALMENTE (Requiere Admin)
+PATCH http://localhost:3000/api/torneos/{{torneoIndividualId}}
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+
+{
+  "estado": "finalizado",
+  "resultado": "Ganador: Player123"
+}
+
+### 8. INSCRIBIRSE EN TORNEO (Requiere Usuario Logueado)
+# @name inscribirEnTorneo
+POST http://localhost:3000/api/torneos/{{torneoEquiposId}}/inscribir
+Content-Type: application/json
+Cookie: token_acceso={{userLogin.response.headers.Set-Cookie}}
+
+{
+  "equipoId": 1,
+  "jugadores": [1, 2, 3, 4, 5]
+}
+
+### 9. ELIMINAR TORNEO (Requiere Admin)
+DELETE http://localhost:3000/api/torneos/{{torneoIndividualId}}
+Cookie: token_acceso={{adminLogin.response.headers.Set-Cookie}}
+
+### 10. INTENTAR CREAR TORNEO COMO USUARIO NORMAL (Debería fallar)
+POST http://localhost:3000/api/torneos
+Content-Type: application/json
+Cookie: token_acceso={{userLogin.response.headers.Set-Cookie}}
+
+{
+  "nombre": "Torneo No Autorizado",
+  "descripcionReglas": "Este torneo no debería crearse",
+  "cantJugadoresEquipo": 1,
+  "cantEquipos": 8,
+  "fechaInicio": "2024-09-01T00:00:00Z",
+  "fechaFin": "2024-09-02T00:00:00Z",
+  "fechaInicioIns": "2024-08-01T00:00:00Z",
+  "fechaFinIns": "2024-08-20T23:59:00Z",
+  "region": "Global",
+  "estado": "inscripciones",
+  "tipoDeTorneo": 1,
+  "juego": 1,
+  "creador": 2,
+  "plataforma": 1
+}
+
+### 11. INTENTAR ELIMINAR TORNEO COMO USUARIO NORMAL (Debería fallar)
+DELETE http://localhost:3000/api/torneos/{{torneoEquiposId}}
+Cookie: token_acceso={{userLogin.response.headers.Set-Cookie}}
+
+### =========================================
+### PRUEBAS DE PERMISOS Y ERRORES
+### =========================================
+
+### 12. CREAR TORNEO SIN AUTENTICACIÓN (Debería fallar)
+POST http://localhost:3000/api/torneos
+Content-Type: application/json
+
+{
+  "nombre": "Torneo Sin Login",
+  "descripcionReglas": "No debería funcionar",
+  "cantJugadoresEquipo": 1,
+  "cantEquipos": 4,
+  "fechaInicio": "2024-10-01T00:00:00Z",
+  "fechaFin": "2024-10-02T00:00:00Z",
+  "region": "Global",
+  "estado": "inscripciones",
+  "tipoDeTorneo": 1,
+  "juego": 1,
+  "creador": 1,
+  "plataforma": 1
+}
+
+### 13. INSCRIBIRSE SIN AUTENTICACIÓN (Debería fallar)
+POST http://localhost:3000/api/torneos/{{torneoEquiposId}}/inscribir
+Content-Type: application/json
+
+{
+  "equipoId": 1
+}
+
+### 14. BUSCAR TORNEO INEXISTENTE (Debería dar 404)
+GET http://localhost:3000/api/torneos/9999
+
+### =========================================
+### VARIABLES PARA LOGIN (Ejecutar estos primero)
+### =========================================
+
+### Login como Admin
+# @name adminLogin
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "identifier": "admin@torneos.com",
+  "contrasenia": "Admin123!"
+}
+
+### Login como Usuario Normal
+# @name userLogin
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "identifier": "test@test.com",
+  "contrasenia": "test12345"
+}
+
+### Registrar Usuario Normal (para pruebas)
+# @name registerUser
+POST http://localhost:3000/api/usuarios/register
+Content-Type: application/json
+
+{
+  "nombre": "Usuario",
+  "apellido": "Prueba",
+  "email": "test@test.com",
+  "nombreUsuario": "testuser",
+  "contrasenia": "test12345",
+  "pais": "Argentina",
+  "rol": "user"
+}
+
+### =========================================
+### FLUJO RECOMENDADO DE PRUEBAS
+### =========================================
+
+###
+# 1. Ejecutar: registerUser (crear usuario de prueba)
+# 2. Ejecutar: adminLogin (login como admin)
+# 3. Ejecutar: 1, 2, 3 (ver torneos y crear nuevos)
+# 4. Ejecutar: 4, 5 (ver torneos específicos)
+# 5. Ejecutar: userLogin (login como usuario normal)
+# 6. Ejecutar: 8 (inscribirse en torneo)
+# 7. Ejecutar: 10, 11 (ver que fallan por permisos)
+# 8. Volver a adminLogin y ejecutar: 6, 7, 9 (admin operations)
+###

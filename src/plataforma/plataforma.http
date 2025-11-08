@@ -1,16 +1,109 @@
-### Obtener todas las plataformas
-GET http://localhost:3000/api/plataforma/
+### =========================================
+### MÉTODOS DE PRUEBA - PLATAFORMAS (SOLO ADMINS)
+### =========================================
 
-### Crear plataforma
-# @name createPlataforma
-POST http://localhost:3000/api/plataforma/
+### 0. PRIMERO: LOGIN COMO ADMIN
+# @name adminLogin
+POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
 
 {
-  "nombre": "PC",
-  "descripcion": "Plataforma de computadora personal"
+  "identifier": "augustolescano@gmail.com",
+  "contrasenia": "augusto123"
 }
 
-### Obtener plataforma específica
+### 1. OBTENER TODAS LAS PLATAFORMAS (Admin)
+GET http://localhost:3000/api/plataforma
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 2. CREAR PLATAFORMA (Admin)
+# @name createPlataforma
+POST http://localhost:3000/api/plataforma
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "PlayStation 5"
+}
+
+### 3. OBTENER PLATAFORMA ESPECÍFICA (Admin)
 @plataformaId = {{createPlataforma.response.body.data.id}}
 GET http://localhost:3000/api/plataforma/{{plataformaId}}
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 4. ACTUALIZAR PLATAFORMA (Admin)
+PUT http://localhost:3000/api/plataforma/{{plataformaId}}
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "PlayStation 5 - Edición Digital"
+}
+
+### 5. ELIMINAR PLATAFORMA (Admin)
+DELETE http://localhost:3000/api/plataforma/{{plataformaId}}
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+### 6. INTENTAR CREAR PLATAFORMA COMO USUARIO NORMAL (Debería fallar)
+# @name userLogin
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "identifier": "test@test.com",
+  "contrasenia": "test12345"
+}
+
+POST http://localhost:3000/api/plataforma
+Content-Type: application/json
+Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Plataforma No Autorizada"
+}
+
+### 7. INTENTAR OBTENER PLATAFORMAS SIN AUTENTICACIÓN (Debería fallar)
+GET http://localhost:3000/api/plataforma
+
+### 8. CREAR MÚLTIPLES PLATAFORMAS (Admin)
+POST http://localhost:3000/api/plataforma
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Xbox Series X"
+}
+
+###
+
+POST http://localhost:3000/api/plataforma
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Nintendo Switch"
+}
+
+###
+
+POST http://localhost:3000/api/plataforma
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "PC"
+}
+
+###
+
+POST http://localhost:3000/api/plataforma
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Mobile"
+}
+
+### 9. VERIFICAR QUE LAS PLATAFORMAS SE CREARON (Admin)
+GET http://localhost:3000/api/plataforma
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}

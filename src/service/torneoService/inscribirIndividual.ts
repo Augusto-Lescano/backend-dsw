@@ -1,8 +1,4 @@
 import { orm } from "../../shared/db/orm.js";
-//import { Torneo } from "../../torneo/torneo.entity.js";
-//import { validarInscripcionIndividual } from "../inscripcion/validarInscripcion.js";
-//import { Usuario } from "../../usuario/usuario.entity.js";
-//import { InscripcionIndividual } from "../../inscripcion/inscripcionIndividual.entity.js";
 
 const em = orm.em; 
 
