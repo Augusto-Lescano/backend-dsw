@@ -1,10 +1,8 @@
 import { Entity, Property, ManyToOne, Rel, Cascade , OneToOne, Collection, ManyToMany } from '@mikro-orm/core';
-import { receiveMessageOnPort } from 'node:worker_threads';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 import { TipoDeTorneo } from '../tipoDeTorneo/tipoDeTorneo.entity.js';
 import { Juego } from '../juego/juego.entity.js';
 import { Usuario } from '../usuario/usuario.entity.js';
-import { Equipo } from '../equipo/equipo.entity.js';
 import { Inscripcion } from '../inscripcion/inscripcion.entity.js';
 import { Plataforma } from '../plataforma/plataforma.entity.js';
 
@@ -53,7 +51,7 @@ export class Torneo extends BaseEntity {
     juego!: Rel<Juego>
 
     @ManyToOne(()=>Usuario,{ nullable: false })
-    creador!: Usuario;
+    creador!: Rel<Usuario>
 
     /*@ManyToMany(()=>Equipo,(equipo)=>equipo.torneos,{cascade:[Cascade.ALL], owner:true})
     equipos = new Collection<Equipo>(this);*/
