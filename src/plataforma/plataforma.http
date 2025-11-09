@@ -8,8 +8,8 @@ POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
 
 {
-  "identifier": "augustolescano@gmail.com",
-  "contrasenia": "augusto123"
+  "identifier": "gianmarco",
+  "contrasenia": "gianmarco123"
 }
 
 ### 1. OBTENER TODAS LAS PLATAFORMAS (Admin)
@@ -23,7 +23,8 @@ Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
 {
-  "nombre": "PlayStation 5"
+  "nombre": "PlayStation 5",
+  "descripcion": "Consola de Sony"
 }
 
 ### 3. OBTENER PLATAFORMA ESPECÍFICA (Admin)
@@ -71,7 +72,8 @@ Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
 {
-  "nombre": "Xbox Series X"
+  "nombre": "PC",
+  "descripcion": "Computadora"
 }
 
 ###
@@ -81,7 +83,8 @@ Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
 {
-  "nombre": "Nintendo Switch"
+  "nombre": "Xbox",
+  "descripcion": "Consola de microsoft"
 }
 
 ###

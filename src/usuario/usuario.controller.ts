@@ -227,13 +227,17 @@ export const login = async (req: Request, res: Response) => {
 	en el servidor verifica el token y verifica si el usuario está auntenticado sin necesidad de tener un estado
 */
 
-export const protegida = async (req:Request, res:Response) => {
-	// Ya manejado por el middleware de autenticación
-	res.status(200).json({
-    message: 'Acceso a ruta protegida exitoso',
-    data: req.session?.usuario
-  });
-}
+export const protegida = async (req: Request, res: Response): Promise<void> => {
+  const usuario = req.session?.usuario;
+
+  if (!usuario) {
+    res.status(401).json({ message: 'No autorizado' });
+    return; // solo cortar la ejecución
+  }
+
+  res.status(200).json({ message: 'Acceso autorizado', data: usuario });
+};
+
 
 export const logout = async (req:Request, res:Response) => {
 	res
