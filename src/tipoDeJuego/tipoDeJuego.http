@@ -38,7 +38,7 @@ Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
 {
-  "nombre": "Battle Royale - Nueva Generación",
+  "nombre": "Battle Royale",
   "descripcion": "Juegos battle royale con mecánicas avanzadas y construcción"
 }
 
@@ -98,6 +98,29 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 {
   "nombre": "Simulación",
   "descripcion": "Juegos que simulan actividades de la vida real o escenarios específicos"
+}
+
+###
+
+POST http://localhost:3000/api/tipoDeJuego
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "FPS",
+  "descripcion": "Disparos en primera persona"
+}
+
+
+###
+
+POST http://localhost:3000/api/tipoDeJuego
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "TPS",
+  "descripcion": "Disparos en tercera persona"
 }
 
 ### 9. VERIFICAR QUE LOS TIPOS SE CREARON (Admin)

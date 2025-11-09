@@ -13,8 +13,9 @@ Content-Type: application/json
 Cookie: token_acceso=token de admin aca
 
 {
-  "nombre": "Eliminación Doble",
-  "descripcion": "Sistema de eliminación doble donde los participantes tienen una segunda oportunidad"
+  "nombre": "1v1",
+  "descripcion": "1 jugador contra otro jugador",
+  "esIndividual": true
 }
 
 ### 3. OBTENER TIPO DE TORNEO ESPECÍFICO (Admin)
@@ -55,8 +56,9 @@ Content-Type: application/json
 Cookie: token_acceso=token de admin aca
 
 {
-  "nombre": "Round Robin",
-  "descripcion": "Todos contra todos en grupos, luego eliminatorias"
+  "nombre": "2v2",
+  "descripcion": "2 jugadores contra 2 jugadores",
+  "esIndividual": false
 }
 
 ###
@@ -66,8 +68,31 @@ Content-Type: application/json
 Cookie: token_acceso=token de admin aca
 
 {
-  "nombre": "Suizo",
-  "descripcion": "Sistema suizo donde se enfrentan participantes con similar rendimiento"
+  "nombre": "4v4",
+  "descripcion": "4 jugadores contra 4 jugadores",
+  "esIndividual": false
 }
 
 ###
+
+POST http://localhost:3000/api/tipoDeTorneo
+Content-Type: application/json
+Cookie: token_acceso=token de admin aca
+
+{
+  "nombre": "Battle royale individual",
+  "descripcion": "battle royale solitario",
+  "esIndividual": true
+}
+
+###
+
+POST http://localhost:3000/api/tipoDeTorneo
+Content-Type: application/json
+Cookie: token_acceso=token de admin aca
+
+{
+  "nombre": "Battle royale grupal",
+  "descripcion": "Equipos de 4 jugadores se enfrentan en un battle royale",
+  "esIndividual": false
+}
