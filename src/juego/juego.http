@@ -25,7 +25,7 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 {
   "nombre": "Counter-Strike 2",
   "descripcion": "Shooter táctico en equipo 5v5",
-  "tipoDeJuego": 1
+  "tipoDeJuego": 5
 }
 
 ### 3. OBTENER JUEGO ESPECÍFICO (Admin)
@@ -79,7 +79,7 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 {
   "nombre": "Valorant",
   "descripcion": "Shooter táctico 5v5 con habilidades únicas",
-  "tipoDeJuego": 1
+  "tipoDeJuego": 5
 }
 
 ###
@@ -103,7 +103,7 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 {
   "nombre": "Fortnite",
   "descripcion": "Battle Royale con construcción",
-  "tipoDeJuego": 3
+  "tipoDeJuego": 1
 }
 
 ###
@@ -113,9 +113,21 @@ Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
 {
-  "nombre": "Rocket League",
-  "descripcion": "Fútbol con coches",
+  "nombre": "EA FC 26",
+  "descripcion": "Fútbol",
   "tipoDeJuego": 4
+}
+
+###
+
+POST http://localhost:3000/api/juego
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Street Fighter VI",
+  "descripcion": "peleas",
+  "tipoDeJuego": 7
 }
 
 ### 9. VERIFICAR QUE LOS JUEGOS SE CREARON (Admin)

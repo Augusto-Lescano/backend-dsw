@@ -123,6 +123,17 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "descripcion": "Disparos en tercera persona"
 }
 
+###
+
+POST http://localhost:3000/api/tipoDeJuego
+Content-Type: application/json
+Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
+
+{
+  "nombre": "Fighting",
+  "descripcion": "Peleas"
+}
+
 ### 9. VERIFICAR QUE LOS TIPOS SE CREARON (Admin)
 GET http://localhost:3000/api/tipoDeJuego
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
