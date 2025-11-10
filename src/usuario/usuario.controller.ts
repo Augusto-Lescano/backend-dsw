@@ -239,11 +239,17 @@ export const protegida = async (req: Request, res: Response): Promise<void> => {
 };
 
 
-export const logout = async (req:Request, res:Response) => {
-	res
-		.clearCookie('token_acceso')
-		.json({ message: 'Sesión cerrada con éxito' })
-}
+export const logout = async (req: Request, res: Response) => {
+  res
+    .clearCookie('token_acceso', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    })
+    .status(200)
+    .json({ message: 'Sesión cerrada con éxito' });
+};
+
 
 // ==== OPERACIONES DE ADMINISTRADOR ====
 export const findAll = async (req: Request, res: Response) => { 

@@ -22,7 +22,7 @@ usuarioRouter.post('/register', validateUsuarioCreate, sanitizeUsuarioInput, reg
 
 // Rutas protegidas para usuarios autenticados
 usuarioRouter.get('/ruta/protegida', requireAuth, protegida);
-usuarioRouter.post('/logout', requireAuth, logout);
+usuarioRouter.post('/logout', logout);
 
 // Rutas de perfil (usuario autenticado puede editar su propio perfil)
 usuarioRouter.put('/:id', requireAuth, requireOwnerOrAdmin, validateUsuarioUpdate, sanitizeUsuarioInput, update);

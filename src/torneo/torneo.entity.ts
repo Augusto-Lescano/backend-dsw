@@ -14,11 +14,11 @@ export class Torneo extends BaseEntity {
     @Property({nullable: false})
     descripcionReglas!: string
 
-    @Property({nullable: false})
-    cantJugadoresEquipo!: number
+    @Property({nullable: true})
+    cantJugadoresEquipo?: number
 
-    @Property({nullable: false})
-    cantEquipos!: number
+    @Property({nullable: true})
+    cantEquipos?: number
 
     @Property({nullable: false})
     cantJugadores!: number
