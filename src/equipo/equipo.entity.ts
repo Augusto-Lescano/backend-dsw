@@ -4,22 +4,19 @@ import { Usuario } from "../usuario/usuario.entity.js";
 import { Inscripcion } from "../inscripcion/inscripcion.entity.js";
 
 @Entity()
-export class Equipo extends BaseEntity{
-    @Property({nullable:false, unique:true})
-    nombre!: string;
+export class Equipo extends BaseEntity {
+  @Property({ nullable: false, unique: true })
+  nombre!: string;
 
-    @ManyToOne(() => Usuario, { nullable: false })
-    capitan!: Rel<Usuario>;
+  @Property({ nullable: true })
+  descripcion?: string;
 
-    @ManyToMany(() => Usuario, user => user.equipos, { 
-        cascade: [Cascade.ALL],
-        owner: true 
-    })
-    jugadores = new Collection<Usuario>(this);
+  @ManyToOne(() => Usuario, { nullable: false })
+  capitan!: Rel<Usuario>;
 
-    @ManyToOne(() => Inscripcion,{ nullable: true })
-    inscripcion?: Rel<Inscripcion>;
+  @ManyToMany(() => Usuario, user => user.equipos, { owner: true })
+  jugadores = new Collection<Usuario>(this);
 
-    /*@ManyToOne(()=>Inscripcion,(inscripcion)=>inscripcion.equipos,{cascade:[Cascade.ALL],owner:true})
-    inscripciones!: Inscripcion[]*/
+  @ManyToOne(() => Inscripcion, { nullable: true })
+  inscripcion?: Rel<Inscripcion>;
 }
