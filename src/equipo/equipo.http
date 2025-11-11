@@ -8,8 +8,8 @@ POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
 
 {
-  "identifier": "emicerto@torneo.com",
-  "contrasenia": "emicerto123"
+  "identifier": "starplatinum10",
+  "contrasenia": "jotarokujo10"
 }
 
 ### 1. CREAR EQUIPO COMO USUARIO NORMAL (Permitido)
@@ -19,9 +19,9 @@ Content-Type: application/json
 Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
 
 {
-  "nombre": "Equipo Alpha",
+  "nombre": "Stardust Crusaders",
   "descripcion": "Equipo competitivo de CS2",
-  "capitan": 2
+  "capitan": 7
 }
 
 ### 2. ACTUALIZAR PROPIO EQUIPO COMO DUEÑO (Permitido)

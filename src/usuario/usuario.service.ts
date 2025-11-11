@@ -223,6 +223,12 @@ export class UsuarioService {
 
   static async obtenerUsuariosSinEquipo() {
     const em = orm.em.fork();
-    return await em.find(Usuario, { equipos: { $size: 0 } } as any, { fields: ['id', 'nombre'] });
+
+    const qb = em.createQueryBuilder(Usuario, 'u');
+    qb.select(['u.id', 'u.nombre'])
+      .leftJoin('u.equipos', 'e')
+      .where('e.id is null');
+
+    return await qb.getResultList();
   }
 }

@@ -2,8 +2,6 @@ import { Request, Response, NextFunction} from 'express';
 import { Equipo } from './equipo.entity.js';
 import { orm } from '../shared/db/orm.js';
 
-const em = orm.em;
-
 function sanitizeEquipoInput(req:Request, res:Response, next:NextFunction){
     req.body.sanitizedInput = {
         nombre: req.body.nombre,
@@ -21,6 +19,7 @@ function sanitizeEquipoInput(req:Request, res:Response, next:NextFunction){
 }
 
 async function findAll(req:Request, res:Response){
+    const em = orm.em.fork();
     try {
         const equipos = await em.find(Equipo,{},{populate:["capitan", "jugadores", "inscripcion"]})
 
@@ -33,7 +32,8 @@ async function findAll(req:Request, res:Response){
     }
 }
 
-async function findOne(req:Request,res: Response){ 
+async function findOne(req:Request,res: Response){
+    const em = orm.em.fork(); 
     try { 
         const id = Number.parseInt(req.params.id) 
         const equipo = await em.findOneOrFail(Equipo,{id},{populate:["capitan", "jugadores", "inscripcion","inscripcion.torneo"]}) 
@@ -48,6 +48,7 @@ async function findOne(req:Request,res: Response){
 } 
 
 async function add(req:Request, res:Response){
+	const em = orm.em.fork();
   try {
     const equipo = em.create(Equipo, req.body.sanitizedInput)
     await em.flush()
@@ -61,7 +62,8 @@ async function add(req:Request, res:Response){
   }
 }
 
-async function update(req:Request, res: Response){ 
+async function update(req:Request, res: Response){
+		const em = orm.em.fork(); 
     try { 
         const id = Number.parseInt(req.params.id) 
         const equipoUpdate = await em.findOneOrFail(Equipo, {id}) 
@@ -77,7 +79,8 @@ async function update(req:Request, res: Response){
     } 
 } 
 
-async function remove(req:Request, res: Response){ 
+async function remove(req:Request, res: Response){
+		const em = orm.em.fork(); 
     try { 
         const id = Number.parseInt(req.params.id) 
         const equipoDelete = em.getReference(Equipo, id) 

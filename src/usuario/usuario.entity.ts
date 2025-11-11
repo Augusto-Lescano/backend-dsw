@@ -27,8 +27,8 @@ export class Usuario extends BaseEntity {
   @Property({ nullable: false, default: 'user' }) //Valor por defecto
   rol!: string;
 
-  @ManyToMany(() => Equipo, (equipo) => equipo.jugadores, { cascade: [Cascade.ALL] })
-  equipos? = new Collection<Equipo>(this);
+  @ManyToMany(() => Equipo, equipo => equipo.jugadores)
+  equipos = new Collection<Equipo>(this);
 
   @OneToMany(() => Torneo, torneo => torneo.creador)
   torneosCreados = new Collection<Torneo>(this)
