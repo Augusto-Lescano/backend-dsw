@@ -42,3 +42,6 @@ dist/
 # node_modules (nunca se sube)
 node_modules/
 .pnpm-store/ 
+
+#
+orm.ts
