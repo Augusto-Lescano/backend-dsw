@@ -220,4 +220,9 @@ export class UsuarioService {
     const { contrasenia: _, ...adminPublico } = admin;
     return adminPublico;
   }
+
+  static async obtenerUsuariosSinEquipo() {
+    const em = orm.em.fork();
+    return await em.find(Usuario, { equipos: { $size: 0 } } as any, { fields: ['id', 'nombre'] });
+  }
 }

@@ -327,3 +327,13 @@ export const update = async (req: Request, res: Response) => {
     });
 	}
 }
+
+export const getUsuariosSinEquipo = async (req: Request, res: Response) => {
+  try {
+    const usuarios = await UsuarioService.obtenerUsuariosSinEquipo();
+    res.status(200).json({ data: usuarios });
+  } catch (error) {
+    console.error('Error obteniendo usuarios sin equipo:', error);
+    res.status(500).json({ message: 'Error obteniendo usuarios sin equipo' });
+  }
+}

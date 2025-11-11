@@ -10,7 +10,8 @@ import {
   login, 
   logout, 
   register, 
-  protegida 
+  protegida,
+  getUsuariosSinEquipo 
 } from "./usuario.controller.js"; 
 import { requireAuth, requireAdmin, requireOwnerOrAdmin } from "../shared/middleware/auth.middleware.js";
 
@@ -19,10 +20,11 @@ export const usuarioRouter = Router();
 // Rutas públicas
 usuarioRouter.post('/login', login);
 usuarioRouter.post('/register', validateUsuarioCreate, sanitizeUsuarioInput, register);
+usuarioRouter.post('/logout', logout);
 
 // Rutas protegidas para usuarios autenticados
 usuarioRouter.get('/ruta/protegida', requireAuth, protegida);
-usuarioRouter.post('/logout', logout);
+usuarioRouter.get('/sin-equipo', requireAuth, getUsuariosSinEquipo);
 
 // Rutas de perfil (usuario autenticado puede editar su propio perfil)
 usuarioRouter.put('/:id', requireAuth, requireOwnerOrAdmin, validateUsuarioUpdate, sanitizeUsuarioInput, update);
