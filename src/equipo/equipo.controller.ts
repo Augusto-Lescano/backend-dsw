@@ -21,7 +21,8 @@ function sanitizeEquipoInput(req:Request, res:Response, next:NextFunction){
 async function findAll(req:Request, res:Response){
     const em = orm.em.fork();
     try {
-        const equipos = await em.find(Equipo,{},{populate:["capitan", "jugadores", "inscripcion"]})
+        // REMOVER "inscripcion" del populate ya que no existe más
+        const equipos = await em.find(Equipo,{},{populate:["capitan", "jugadores"]})
 
         res.status(200).json({
             message:'Se encontraron todos los equipos',
@@ -36,7 +37,8 @@ async function findOne(req:Request,res: Response){
     const em = orm.em.fork(); 
     try { 
         const id = Number.parseInt(req.params.id) 
-        const equipo = await em.findOneOrFail(Equipo,{id},{populate:["capitan", "jugadores", "inscripcion","inscripcion.torneo"]}) 
+        // REMOVER "inscripcion" y "inscripcion.torneo" del populate
+        const equipo = await em.findOneOrFail(Equipo,{id},{populate:["capitan", "jugadores"]}) 
 
         res.status(200).json({
             message:'Se encontró el equipo',
@@ -48,7 +50,7 @@ async function findOne(req:Request,res: Response){
 } 
 
 async function add(req:Request, res:Response){
-	const em = orm.em.fork();
+    const em = orm.em.fork();
   try {
     const equipo = em.create(Equipo, req.body.sanitizedInput)
     await em.flush()
@@ -63,7 +65,7 @@ async function add(req:Request, res:Response){
 }
 
 async function update(req:Request, res: Response){
-		const em = orm.em.fork(); 
+    const em = orm.em.fork(); 
     try { 
         const id = Number.parseInt(req.params.id) 
         const equipoUpdate = await em.findOneOrFail(Equipo, {id}) 
@@ -80,7 +82,7 @@ async function update(req:Request, res: Response){
 } 
 
 async function remove(req:Request, res: Response){
-		const em = orm.em.fork(); 
+    const em = orm.em.fork(); 
     try { 
         const id = Number.parseInt(req.params.id) 
         const equipoDelete = em.getReference(Equipo, id) 
@@ -95,4 +97,4 @@ async function remove(req:Request, res: Response){
     } 
 } 
 
-export { sanitizeEquipoInput, findAll, findOne, add, update, remove } 
+export { sanitizeEquipoInput, findAll, findOne, add, update, remove }

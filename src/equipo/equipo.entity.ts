@@ -1,7 +1,6 @@
 import { Entity, Property, Rel, ManyToMany, Cascade, Collection,ManyToOne } from "@mikro-orm/core";
 import { BaseEntity } from "../shared/db/baseEntity.entity.js";
 import { Usuario } from "../usuario/usuario.entity.js";
-import { Inscripcion } from "../inscripcion/inscripcion.entity.js";
 
 @Entity()
 export class Equipo extends BaseEntity {
@@ -16,7 +15,4 @@ export class Equipo extends BaseEntity {
 
   @ManyToMany(() => Usuario, user => user.equipos, { owner: true })
   jugadores = new Collection<Usuario>(this);
-
-  @ManyToOne(() => Inscripcion, { nullable: true })
-  inscripcion?: Rel<Inscripcion>;
 }
