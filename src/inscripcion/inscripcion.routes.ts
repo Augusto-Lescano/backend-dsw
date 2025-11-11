@@ -1,19 +1,31 @@
-import { Router } from "express"
+// inscripcion.routes.ts
+import { Router } from 'express';
 import { 
-  sanitizedInscripcionInput, 
-  findAll, 
-  findOne, 
-  add, 
-  update, 
-  remove
-} from "./inscripcion.controler.js"
-import { requireAuth, requireAdmin } from "../shared/middleware/auth.middleware.js"
+  inscribirUsuarioIndividual,
+  inscribirEquipo,
+  obtenerEquiposDelUsuarioAutenticado,
+  verificarInscripcion,
+  findAll,
+  findOne,
+  add,
+  update,
+  remove,
+  sanitizedInscripcionInput
+} from './inscripcion.controller.js';
+import { requireAuth, requireAdmin } from '../shared/middleware/auth.middleware.js';
 
-export const inscripcionRouter = Router()
+export const inscripcionRouter = Router();
 
-// TODAS las rutas requieren ser administrador
-inscripcionRouter.get("/", requireAuth, requireAdmin, findAll)
-inscripcionRouter.get("/:id", requireAuth, requireAdmin, findOne)
-inscripcionRouter.post("/", requireAuth, requireAdmin, sanitizedInscripcionInput, add)
-inscripcionRouter.put("/:id", requireAuth, requireAdmin, sanitizedInscripcionInput, update)
-inscripcionRouter.delete("/:id", requireAuth, requireAdmin, remove)
+// Rutas que requieren autenticación
+inscripcionRouter.post('/individual', requireAuth, inscribirUsuarioIndividual);
+inscripcionRouter.post('/equipo', requireAuth, inscribirEquipo);
+inscripcionRouter.get('/mis-equipos', requireAuth, obtenerEquiposDelUsuarioAutenticado);
+inscripcionRouter.get('/verificar/:torneoId/usuario/:usuarioId', requireAuth, verificarInscripcion);
+
+// Rutas solo para admin
+inscripcionRouter.get('/', requireAdmin, findAll);
+inscripcionRouter.get('/:id', requireAdmin, findOne);
+inscripcionRouter.post('/', requireAdmin, sanitizedInscripcionInput, add);
+inscripcionRouter.put('/:id', requireAdmin, sanitizedInscripcionInput, update);
+inscripcionRouter.patch('/:id', requireAdmin, sanitizedInscripcionInput, update);
+inscripcionRouter.delete('/:id', requireAdmin, remove);
