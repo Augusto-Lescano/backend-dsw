@@ -15,6 +15,7 @@ declare global {
 
 export function authMiddleware(req: Request, res: Response, next: NextFunction): void {
   const token = req.cookies.token_acceso;
+   console.log('🔹 Token recibido:', token);
   req.session = { usuario: null };
 
   if (!token) {

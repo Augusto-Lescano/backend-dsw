@@ -98,22 +98,11 @@ const inscribir = async(req: Request, res: Response): Promise<void> => {
 
   try {
     const torneoId = Number.parseInt(req.params.torneoId);
-    const { usuarioId, equipoId } = req.body;
+    const inscripcionData  = req.body;
 
-    if (usuarioId && equipoId) {
-      res.status(400).json({ message: 'Solo se puede enviar usuarioId (individual) o equipoId (por equipos), no ambos' });
-      return;
-    }
-
-    if (!usuarioId && !equipoId){
-      res.status(400).json({message: 'Se requiere usuarioId para torneos individuales o equipoId para torneos por equipos'});
-      return;
-    }
-
-    const inscripcionData = { usuarioId, equipoId };
-    const resultado = await inscribirEnTorneo(torneoId, inscripcionData);
-
-    res.status(200).json({message:resultado.message,data: resultado});
+    const result = await inscribirEnTorneo(torneoId, inscripcionData);
+   
+    res.status(200).json(result);
     }catch (error : any){
       res.status(400).json({message:error.message});
   }

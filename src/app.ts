@@ -20,7 +20,7 @@ import { inscripcionRouter } from './inscripcion/inscripcion.routes.js';
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:5174', // El origen del frontend
+  origin: 'http://localhost:5173', // El origen del frontend
   credentials: true // Importante para cookies
 })); //Habilitar CORS para todas las rutas
 
@@ -28,7 +28,7 @@ app.use(express.json()); // Mira si la req tiene algo en el body, de ser asi lo 
 app.use(cookieParser());
 
 // Middleware de autenticación
-// app.use(authMiddleware); aplica el middleware de autenticación globalmente a todas las rutas
+app.use(authMiddleware); //aplica el middleware de autenticación globalmente a todas las rutas
 
 // Middleware de MikroORM
 app.use((req, res, next) => {
