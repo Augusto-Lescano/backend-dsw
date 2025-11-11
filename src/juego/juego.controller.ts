@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { Juego } from "./juego.entity.js";
+import { Torneo } from "../torneo/torneo.entity.js";
 import { orm } from "../shared/db/orm.js";
+
+const em = orm.em;
 
 function sanitizedJuegoInput(req:Request, res:Response, next:NextFunction){
   req.body.sanitizedInput={
@@ -16,8 +19,6 @@ function sanitizedJuegoInput(req:Request, res:Response, next:NextFunction){
   })
   next()
 }
-
-const em = orm.em
 
 async function findAll(req:Request, res:Response){
   try {
@@ -38,6 +39,95 @@ async function findOne(req:Request, res:Response){
   }
 }
 
+// Obtener juego con torneos activos y finalizados
+async function obtenerJuegoConTorneos(req:Request, res:Response){
+  try {
+    const id = Number.parseInt(req.params.id)
+    const juego = await em.findOneOrFail(Juego, {id}, {
+      populate: [
+        'tipoDeJuego', 
+        'plataformas',
+        'torneos',
+        'torneos.plataforma',
+        'torneos.creador',
+        'torneos.tipoDeTorneo'
+      ]
+    })
+    
+    // Obtener fecha actual para comparaciones
+    const fechaActual = new Date();
+    
+    // Filtrar torneos activos (no finalizados y fecha futura)
+    const torneosActivos = juego.torneos.getItems().filter(torneo => {
+      return torneo.estado !== 'finalizado' && new Date(torneo.fechaFin) > fechaActual;
+    });
+    
+    // Filtrar torneos finalizados (estado finalizado o fecha pasada)
+    const torneosFinalizados = juego.torneos.getItems().filter(torneo => {
+      return torneo.estado === 'finalizado' || new Date(torneo.fechaFin) <= fechaActual;
+    });
+    
+    res.status(200).json({
+      message: "Juego con torneos encontrado",
+      data: {
+        juego,
+        torneosActivos,
+        torneosFinalizados
+      }
+    })
+  } catch (error:any) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+// Obtener solo torneos activos de un juego
+async function obtenerTorneosActivosPorJuego(req:Request, res:Response){
+  try {
+    const juegoId = Number.parseInt(req.params.juegoId)
+    const fechaActual = new Date();
+    
+    const torneosActivos = await em.find(Torneo, {
+      juego: juegoId,
+      estado: { $ne: 'finalizado' },
+      fechaFin: { $gt: fechaActual }
+    }, {
+      populate: ['plataforma', 'creador', 'tipoDeTorneo', 'juego']
+    })
+    
+    res.status(200).json({
+      message: "Torneos activos del juego",
+      data: torneosActivos
+    })
+  } catch (error:any) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+// Obtener solo torneos finalizados de un juego
+async function obtenerTorneosFinalizadosPorJuego(req:Request, res:Response){
+  try {
+    const juegoId = Number.parseInt(req.params.juegoId)
+    const fechaActual = new Date();
+    
+    const torneosFinalizados = await em.find(Torneo, {
+      juego: juegoId,
+      $or: [
+        { estado: 'finalizado' },
+        { fechaFin: { $lte: fechaActual } }
+      ]
+    }, {
+      populate: ['plataforma', 'creador', 'tipoDeTorneo', 'juego']
+    })
+    
+    res.status(200).json({
+      message: "Torneos finalizados del juego",
+      data: torneosFinalizados
+    })
+  } catch (error:any) {
+    res.status(500).json({message:error.message})
+  }
+}
+
 async function add(req:Request, res:Response){
   try {
     const juego = em.create(Juego, req.body.sanitizedInput)
@@ -51,12 +141,28 @@ async function add(req:Request, res:Response){
 async function update(req:Request, res:Response){
   try {
     const id = Number.parseInt(req.params.id)
-    const juego = em.getReference(Juego,id)
+    const juego = await em.findOneOrFail(Juego, id)
+    
+    console.log('Datos recibidos para actualizar:', req.body.sanitizedInput)
+    
+    // Asignar los nuevos valores
     em.assign(juego, req.body.sanitizedInput)
     await em.flush()
-    res.status(200).json({message:"Juego actualizado"})
+    
+    // Recargar el juego con las relaciones populadas
+    const juegoActualizado = await em.findOneOrFail(Juego, id, {
+      populate: ['tipoDeJuego', 'plataformas']
+    })
+    
+    console.log('Juego actualizado:', juegoActualizado)
+    
+    res.status(200).json({
+      message: "Juego actualizado",
+      data: juegoActualizado
+    })
   } catch (error:any) {
-    res.status(500).json({message:error.message})
+    console.error('Error actualizando juego:', error)
+    res.status(500).json({message: error.message})
   }
 }
 
@@ -71,4 +177,14 @@ async function remove(req:Request, res:Response){
   }
 }
 
-export {sanitizedJuegoInput, findAll, findOne, add, update, remove}
+export {
+  sanitizedJuegoInput, 
+  findAll, 
+  findOne, 
+  obtenerJuegoConTorneos,
+  obtenerTorneosActivosPorJuego,
+  obtenerTorneosFinalizadosPorJuego,
+  add, 
+  update, 
+  remove
+}
