@@ -36,7 +36,7 @@ export class Torneo extends BaseEntity {
     fechaFinIns!: Date
 
     @Property({nullable: true})
-    resultado!: string
+    resultado?: string
 
     @Property({nullable: false})
     region!: string
