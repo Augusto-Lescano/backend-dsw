@@ -6,7 +6,7 @@ async function createAdmins() {
   const em = orm.em.fork();
   
   try {
-    console.log('🔄 Creando administradores...');
+    console.log('Creando administradores...');
 
     const admins = [
       {
@@ -46,7 +46,7 @@ async function createAdmins() {
         });
 
         if (existing) {
-          console.log(`ℹ️  Admin ya existe: ${adminData.email}`);
+          console.log(`ℹAdmin ya existe: ${adminData.email}`);
           continue;
         }
 
@@ -61,17 +61,17 @@ async function createAdmins() {
         });
 
         await em.persistAndFlush(admin);
-        console.log(`✅ Admin creado: ${adminData.email}`);
+        console.log(`Admin creado: ${adminData.email}`);
         
       } catch (error: any) {
-        console.log(`❌ Error con ${adminData.email}:`, error.message);
+        console.log(`Error con ${adminData.email}:`, error.message);
       }
     }
 
     console.log('Proceso completado!');
     
   } catch (error: any) {
-    console.error('💥 Error general:', error.message);
+    console.error('Error general:', error.message);
   } finally {
     await orm.close();
   }
