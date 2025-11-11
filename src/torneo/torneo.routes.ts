@@ -5,7 +5,6 @@ import { sanitizeTorneoInput,
     add,
     update,
     remove,
-    inscribir
 } from "./torneo.controller.js";
 import { requireAuth, requireAdmin, requireOwnerOrAdmin } from "../shared/middleware/auth.middleware.js";
 
@@ -14,9 +13,6 @@ export const torneoRouter = Router()
 // Rutas públicas (acceso sin autenticación)
 torneoRouter.get('/', findAll) // Cualquiera puede ver torneos
 torneoRouter.get('/:id', findOne) // Cualquiera puede ver un torneo
-
-// Rutas protegidas - solo usuarios autenticados
-torneoRouter.post('/:torneoId/inscribir', requireAuth, inscribir) // Usuarios logueados pueden inscribirse
 
 // Rutas de administración - solo admins
 torneoRouter.post('/', requireAuth, requireAdmin, sanitizeTorneoInput, add) // Solo admin puede crear

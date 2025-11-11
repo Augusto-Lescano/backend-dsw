@@ -148,3 +148,6 @@ Cookie: token_acceso=Token_de_admin_aca
 ### Ver usuario 3 específico
 GET http://localhost:3000/api/usuarios/{{user3Id}}
 Cookie: token_acceso=Token_de_admin_aca
+
+### Get users sin equipo
+GET http://localhost:3000/api/usuarios/sin-equipo
