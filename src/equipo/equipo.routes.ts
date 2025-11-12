@@ -15,14 +15,14 @@ export const equipoRouter = Router()
 equipoRouter.post('/', requireAuth, sanitizeEquipoInput, add)
 
 // SOLO ADMINS pueden ver todos los equipos
-equipoRouter.get('/', requireAuth, requireAdmin, findAll)
+equipoRouter.get('/', requireAuth, findAll)
 
 // SOLO ADMINS pueden ver equipo específico
-equipoRouter.get('/:id', requireAuth, requireAdmin, findOne)
+equipoRouter.get('/:id', requireAuth, findOne)
 
 // Dueño del equipo O admin pueden actualizar equipos
 equipoRouter.put('/:id', requireAuth, requireOwnerOrAdmin, sanitizeEquipoInput, update)
 equipoRouter.patch('/:id', requireAuth, requireOwnerOrAdmin, sanitizeEquipoInput, update)
 
 // SOLO ADMINS pueden eliminar equipos
-equipoRouter.delete('/:id', requireAuth, requireAdmin, remove)
+equipoRouter.delete('/:id', requireAuth, remove)

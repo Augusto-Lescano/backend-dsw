@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { SECRET_JWT_KEY } from '../../../config.js';
+import { orm } from '../db/orm.js';
+import { Equipo } from '../../equipo/equipo.entity.js';
 
 // Extiende la interfaz Request de Express para incluir session
 declare global {
@@ -58,26 +60,44 @@ export function requireAdmin(req: Request, res: Response, next: NextFunction): v
   next();
 }
 
-// Middleware para verificar si es el propietario del recurso o admin
-export function requireOwnerOrAdmin(req: Request, res: Response, next: NextFunction): void {
-  if (!req.session?.usuario) {
+export async function requireOwnerOrAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
+  // Verificar sesión y usuario
+  if (!req.session || !req.session.usuario) {
     res.status(401).json({ message: 'Acceso no autorizado' });
-		return;
+    return;
   }
-  
+
   const userId = req.session.usuario.id;
-  const resourceId = parseInt(req.params.id);
-  
+  const userRol = req.session.usuario.rol;
+  const equipoId = parseInt(req.params.id, 10);
+
   // Si es admin, permitir siempre
-  if (req.session.usuario.rol === 'admin') {
-    return next();
+  if (userRol === 'admin') {
+    next();
+    return;
   }
-  
-  // Si es el propietario del recurso, permitir
-  if (userId === resourceId) {
-    return next();
+
+  try {
+    const em = orm.em.fork();
+
+    // Buscar equipo con su capitán
+    const equipo = await em.findOne(Equipo, { id: equipoId }, { populate: ['capitan'] });
+
+    if (!equipo) {
+      res.status(404).json({ message: 'Equipo no encontrado' });
+      return;
+    }
+
+    // Si el usuario es el capitán, permitir
+    if (equipo.capitan && equipo.capitan.id === userId) {
+      next();
+      return;
+    }
+
+    // Si no cumple ninguna condición, prohibir acceso
+    res.status(403).json({ message: 'No tienes permisos para esta acción' });
+  } catch (error) {
+    console.error('Error en requireOwnerOrAdmin:', error);
+    res.status(500).json({ message: 'Error al verificar permisos' });
   }
-  
-  res.status(403).json({ message: 'No tienes permisos para esta acción' });
-	return;
 }
