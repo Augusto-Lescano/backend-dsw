@@ -1,4 +1,3 @@
-// service/torneoService/crearTorneoInscripcion.ts
 import { EntityManager } from '@mikro-orm/core';
 import { Torneo } from '../../torneo/torneo.entity.js';
 import { Inscripcion } from '../../inscripcion/inscripcion.entity.js';
@@ -57,7 +56,7 @@ export async function crearTorneoInscripcion(input: CrearTorneoInput, usuarioCre
       fechaFin: new Date(input.fechaFin),
       fechaInicioIns: new Date(input.fechaInicioIns),
       fechaFinIns: new Date(input.fechaFinIns),
-      resultado: 'Pendiente', // Automáticamente null
+      resultado: 'Pendiente',
       region: input.region,
       estado: 'Pendiente', // Automáticamente "Pendiente"
       tipoDeTorneo: tipoDeTorneo,
