@@ -53,9 +53,6 @@ export class Torneo extends BaseEntity {
     @ManyToOne(()=>Usuario,{ nullable: false })
     creador!: Rel<Usuario>
 
-    /*@ManyToMany(()=>Equipo,(equipo)=>equipo.torneos,{cascade:[Cascade.ALL], owner:true})
-    equipos = new Collection<Equipo>(this);*/
-
     @OneToOne(() => Inscripcion, inscripcion => inscripcion.torneo, { 
         cascade: [Cascade.ALL],
         owner: true
@@ -64,6 +61,5 @@ export class Torneo extends BaseEntity {
     
     @ManyToOne(()=>Plataforma, {nullable:false})
     plataforma!: Rel<Plataforma>
-
 }
 
