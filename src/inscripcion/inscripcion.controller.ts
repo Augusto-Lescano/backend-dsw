@@ -208,14 +208,31 @@ export async function verificarInscripcion(req: Request, res: Response) {
 // Obtener todas las inscripciones (solo admin)
 export async function findAll(req: Request, res: Response) {
   try {
-    const inscripciones = await em.find(Inscripcion, {}, {
-      populate: ['torneo', 'inscripcionesIndividuales', 'inscripcionesEquipos']
+    const em = orm.em.fork();
+
+    const inscripciones = await em.find(
+      Inscripcion,
+      {},
+      {
+        populate: [
+          'torneo',
+          'inscripcionesIndividuales.usuario',
+          'inscripcionesEquipos.equipo',
+          'inscripcionesEquipos.inscripcion',
+        ],
+      }
+    );
+
+    res.status(200).json({
+      message: "Listado de Inscripciones (Admin)",
+      data: inscripciones,
     });
-    res.status(200).json({ message: "Listado de Inscripciones", data: inscripciones });
   } catch (error: any) {
+    console.error('Error en findAll inscripciones admin:', error);
     res.status(500).json({ message: error.message });
   }
 }
+
 
 // Obtener una inscripción específica (solo admin)
 export async function findOne(req: Request, res: Response) {
