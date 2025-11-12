@@ -1,8 +1,6 @@
-### =========================================
 ### MÉTODOS DE PRUEBA - JUEGOS (SOLO ADMINS)
-### =========================================
 
-### 0. PRIMERO: LOGIN COMO ADMIN
+### Login como admin
 # @name adminLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -12,11 +10,11 @@ Content-Type: application/json
   "contrasenia": "Admin123!"
 }
 
-### 1. OBTENER TODOS LOS JUEGOS (Admin)
+### Obtener todos los juegos (Admin)
 GET http://localhost:3000/api/juego
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 2. CREAR JUEGO (Admin)
+### Crear juego (Admin)
 # @name createJuego
 POST http://localhost:3000/api/juego
 Content-Type: application/json
@@ -28,12 +26,12 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "tipoDeJuego": 5
 }
 
-### 3. OBTENER JUEGO ESPECÍFICO (Admin)
+### Obtener juego por ID (Admin)
 @juegoId = {{createJuego.response.body.data.id}}
 GET http://localhost:3000/api/juego/{{juegoId}}
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 4. ACTUALIZAR JUEGO (Admin)
+### Actualizar juego (Admin)
 PUT http://localhost:3000/api/juego/{{juegoId}}
 Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
@@ -44,11 +42,11 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "tipoDeJuego": 1
 }
 
-### 5. ELIMINAR JUEGO (Admin)
+### Eliminar juego (Admin)
 DELETE http://localhost:3000/api/juego/{{juegoId}}
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 6. INTENTAR CREAR JUEGO COMO USUARIO NORMAL (Debería fallar)
+### Intentar crear juego como usuario normal (Debería fallar)
 # @name userLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -68,10 +66,10 @@ Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
   "tipoDeJuego": 1
 }
 
-### 7. INTENTAR OBTENER JUEGOS SIN AUTENTICACIÓN (Debería fallar)
+### Intentar obtener juegos sin autenticación (Debería fallar)
 GET http://localhost:3000/api/juego
 
-### 8. CREAR MÚLTIPLES JUEGOS (Admin)
+### Crear multiples juegos (Admin)
 POST http://localhost:3000/api/juego
 Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
@@ -130,10 +128,10 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "tipoDeJuego": 7
 }
 
-### 9. VERIFICAR QUE LOS JUEGOS SE CREARON (Admin)
+### Verificar todas los juegos creados (Admin)
 GET http://localhost:3000/api/juego
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 10. BUSCAR JUEGO POR ID ESPECÍFICO (Admin)
+### Buscar juego específico por ID (Admin)
 GET http://localhost:3000/api/juego/2
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}

@@ -24,11 +24,3 @@ juegoRouter.delete("/:id", requireAuth, requireAdmin, remove)
 juegoRouter.get("/:id/torneos", requireAuth, requireAdmin, obtenerJuegoConTorneos) // Juego con todos sus torneos
 juegoRouter.get("/:juegoId/torneos/activos", requireAuth, requireAdmin, obtenerTorneosActivosPorJuego) // Solo torneos activos
 juegoRouter.get("/:juegoId/torneos/finalizados", requireAuth, requireAdmin, obtenerTorneosFinalizadosPorJuego) // Solo torneos finalizados
-
-/*
-GET    /api/juego           # Listar juegos (solo admin)
-GET    /api/juego/1         # Ver juego específico (solo admin)  
-POST   /api/juego           # Crear juego (solo admin)
-PUT    /api/juego/1         # Actualizar juego (solo admin)
-DELETE /api/juego/1         # Eliminar juego (solo admin)
-*/
