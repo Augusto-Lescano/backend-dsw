@@ -1,3 +1,3 @@
-# backend-dsw
+# Backend ClutchUp
 
-# Backend del proyecto "ClutchUp" gestion de torneos, para la cátedra Desarrollo de Software 
+Backend del proyecto "ClutchUp" gestión de torneos, para la cátedra Desarrollo de Software 
