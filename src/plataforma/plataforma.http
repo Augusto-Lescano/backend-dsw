@@ -1,8 +1,6 @@
-### =========================================
 ### MÉTODOS DE PRUEBA - PLATAFORMAS (SOLO ADMINS)
-### =========================================
 
-### 0. PRIMERO: LOGIN COMO ADMIN
+### Login como admin
 # @name adminLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -12,11 +10,11 @@ Content-Type: application/json
   "contrasenia": "gianmarco123"
 }
 
-### 1. OBTENER TODAS LAS PLATAFORMAS (Admin)
+### Obtener todas las plataformas (Admin)
 GET http://localhost:3000/api/plataforma
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 2. CREAR PLATAFORMA (Admin)
+### Crear plataforma (Admin)
 # @name createPlataforma
 POST http://localhost:3000/api/plataforma
 Content-Type: application/json
@@ -27,12 +25,12 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "descripcion": "Consola de Sony"
 }
 
-### 3. OBTENER PLATAFORMA ESPECÍFICA (Admin)
+### Obtener plataforma por ID (Admin)
 @plataformaId = {{createPlataforma.response.body.data.id}}
 GET http://localhost:3000/api/plataforma/{{plataformaId}}
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 4. ACTUALIZAR PLATAFORMA (Admin)
+### Actualizar plataforma (Admin)
 PUT http://localhost:3000/api/plataforma/{{plataformaId}}
 Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
@@ -41,11 +39,11 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "nombre": "PlayStation 5 - Edición Digital"
 }
 
-### 5. ELIMINAR PLATAFORMA (Admin)
+### Eliminar plataforma (Admin)
 DELETE http://localhost:3000/api/plataforma/{{plataformaId}}
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 6. INTENTAR CREAR PLATAFORMA COMO USUARIO NORMAL (Debería fallar)
+### Intentar crear plataforma como usuario normal (Debería fallar)
 # @name userLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -63,10 +61,10 @@ Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
   "nombre": "Plataforma No Autorizada"
 }
 
-### 7. INTENTAR OBTENER PLATAFORMAS SIN AUTENTICACIÓN (Debería fallar)
+### Intentar obtener plataformas como usuario normal (Debería fallar)
 GET http://localhost:3000/api/plataforma
 
-### 8. CREAR MÚLTIPLES PLATAFORMAS (Admin)
+### Crear múltiples plataformas (Admin)
 POST http://localhost:3000/api/plataforma
 Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
@@ -107,6 +105,6 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "nombre": "Mobile"
 }
 
-### 9. VERIFICAR QUE LAS PLATAFORMAS SE CREARON (Admin)
+### Verificar todas las plataformas creadas (Admin)
 GET http://localhost:3000/api/plataforma
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}

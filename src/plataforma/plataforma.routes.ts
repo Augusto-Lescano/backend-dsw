@@ -17,11 +17,3 @@ plataformaRouter.post("/", requireAuth, requireAdmin, sanitizedPlataformaInput, 
 plataformaRouter.get("/:id", requireAuth, requireAdmin, findOne)
 plataformaRouter.put("/:id", requireAuth, requireAdmin, sanitizedPlataformaInput, update)
 plataformaRouter.delete("/:id", requireAuth, requireAdmin, remove)
-
-/*
-GET    /api/plataforma           # Listar plataformas (solo admin)
-GET    /api/plataforma/1         # Ver plataforma específica (solo admin)  
-POST   /api/plataforma           # Crear plataforma (solo admin)
-PUT    /api/plataforma/1         # Actualizar plataforma (solo admin)
-DELETE /api/plataforma/1         # Eliminar plataforma (solo admin)
-*/

@@ -1,7 +1,6 @@
 import { Plataforma } from "./plataforma.entity.js";
 import { Request, Response, NextFunction } from "express";
 import { orm } from "../shared/db/orm.js";
-import { plataformaRouter } from "./plataforma.routes.js";
 
 function sanitizedPlataformaInput(req: Request, res: Response, next: NextFunction) {
     req.body.sanitizedInput = {
