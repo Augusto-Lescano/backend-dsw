@@ -22,7 +22,7 @@ const app = express();
 app.use(cors({
   origin: 'http://localhost:5173', // El origen del frontend
   credentials: true // Importante para cookies
-})); //Habilitar CORS para todas las rutas
+})); // Habilitar CORS para todas las rutas
 
 app.use(express.json()); // Mira si la req tiene algo en el body, de ser asi lo deja en el req.body
 app.use(cookieParser());

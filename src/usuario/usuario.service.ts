@@ -1,4 +1,3 @@
-// usuario.service.ts
 import { orm } from '../shared/db/orm.js';
 import { Usuario } from './usuario.entity.js';
 import { Equipo } from '../equipo/equipo.entity.js';
@@ -7,7 +6,6 @@ import bcrypt from 'bcrypt';
 
 export class UsuarioService {
   
-	// ==== CREAR USUARIO ====
 	// Para creación - todos los campos son requeridos
   static async createUser(userData: {
     nombre: string;
@@ -23,7 +21,7 @@ export class UsuarioService {
 		// Forzar rol 'user' para registros normales
     const userDataWithRole = {
       ...userData,
-      rol: 'user' // Siempre será 'user' para registros normales
+      rol: 'user'
     };
 
     // Verificar si el email ya existe
@@ -55,7 +53,6 @@ export class UsuarioService {
   }
 
 
-	// ==== ACTUALIZAR USUARIO ====
 	// Para actualización - campos parciales
   static async updateUser(id: number, updateData: {
     nombre?: string;
@@ -110,11 +107,11 @@ export class UsuarioService {
     return usuarioPublico;
   }
 
-	// ==== INGRESO DE USUARIO ====
+	// Ingreso de usuario
   static async login(identifier: string, contrasenia: string) {
     const em = orm.em;
     
-    // Buscar usuario por email O por nombre de usuario
+    // Buscar usuario por email o por nombre de usuario
     const usuario = await em.findOne(Usuario, {
         $or: [
             { email: identifier },
@@ -137,7 +134,7 @@ export class UsuarioService {
     return usuarioPublico;
 	}
 
-  // ==== BUSCAR USUARIO POR ID ====
+  // Buscar usuario por ID
   static async findOne(id: number) {
     const em = orm.em;
     const usuario = await em.findOne(Usuario, { id });
@@ -149,7 +146,7 @@ export class UsuarioService {
     return null;
   }
 
-  // ==== LISTAR TODOS LOS USUARIOS ====
+  // Listar todos los usuarios
   static async findAll() {
     const em = orm.em;
     const usuarios = await em.find(Usuario, {});
@@ -161,7 +158,7 @@ export class UsuarioService {
     });
   }
 
-	// ==== ELIMINAR USUARIO (SOLO ADMIN) ====
+	// Eliminar usuario
   static async deleteUser(id: number) {
     const em = orm.em;
     
@@ -183,7 +180,7 @@ export class UsuarioService {
     return { message: 'Usuario eliminado exitosamente' };
   }
 
-  // ==== CREAR ADMIN MANUALMENTE (para uso interno) ====
+  // Crear administrador (solo uso interno o por otro admin)
   static async createAdmin(adminData: {
     nombre: string;
     apellido: string;
@@ -234,7 +231,7 @@ export class UsuarioService {
     return await qb.getResultList();
   }
 
-   // ==== LISTADO DETALLADO PARA ADMIN ====
+   // Lista detallada de usuarios (solo admin)
   static async getUsuariosAdmin() {
     const em = orm.em.fork();
 

@@ -4,8 +4,7 @@ import jwt from 'jsonwebtoken';
 import { SECRET_JWT_KEY } from '../../config.js';
 
 
-// ==== VALIDACION PARA CREACION ====
-// Middleware de validación para creación (POST y register)
+// Middleware de validación para creación (register)
 export function validateUsuarioCreate(req: Request, res: Response, next: NextFunction):
 void {
 	const errors: string[] = [];
@@ -26,7 +25,7 @@ void {
     errors.push(`Los siguientes campos deben ser texto: ${nonStringFields.join(', ')}`);
   }
   
-  // 3. Validaciones específicas por campo (solo si son strings)
+  // Validaciones específicas por campo (solo si son strings)
   if (typeof req.body.nombre === 'string' && req.body.nombre.length < 3) {
     errors.push('El nombre debe contener al menos 3 caracteres');
   }
@@ -73,8 +72,7 @@ void {
 }
 
 
-// ==== VALIDACION PARA ACTUALIZACION ====
-// Middleware de validación para actualización (PUT y PATCH)
+// Middleware de validación para actualización
 export function validateUsuarioUpdate(req: Request, res: Response, next: NextFunction): void {
   const errors: string[] = [];
 
@@ -143,8 +141,7 @@ export function validateUsuarioUpdate(req: Request, res: Response, next: NextFun
 }
 
 
-// ==== SANITIZACION ====
-// Asegura que solo los campos necesarios lleguen al controlador Previene ataques de sobrecarga de datos
+// Asegura que solo los campos necesarios lleguen al controlador. Previene ataques de sobrecarga de datos
 export function sanitizeUsuarioInput(req: Request, res: Response, next: NextFunction): void {
   req.body.sanitizedInput = { 
     nombre: req.body.nombre, 
@@ -156,7 +153,7 @@ export function sanitizeUsuarioInput(req: Request, res: Response, next: NextFunc
     rol: req.body.rol, 
   } 
 
-  // Eliminar campos undefined (especialmente útil para actualizaciones)
+  // Eliminar campos undefined (útil para actualizaciones)
   Object.keys(req.body.sanitizedInput).forEach(key => { 
     if (req.body.sanitizedInput[key] === undefined) { 
       delete req.body.sanitizedInput[key] 
@@ -167,7 +164,7 @@ export function sanitizeUsuarioInput(req: Request, res: Response, next: NextFunc
 }
 
 
-// ==== AUTENTICACION ====
+// Autenticación
 export const register = async (req: Request, res: Response) => {
   try {
     // Para creación, esperamos todos los campos
@@ -179,7 +176,7 @@ export const register = async (req: Request, res: Response) => {
       data: usuario
     });
   } catch (error) {
-    //No es buena idea mandar el error del service. Puede traer info sensible
+    // No es buena idea mandar el error del service. Puede traer info sensible
     res.status(400).json({
       message: error instanceof Error ? error.message : 'Error desconocido'
     });
@@ -222,10 +219,6 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-/* Para navegar entre páginas tiene que estar logueado (JSON Web Tokens)
-	se generan con la clave secreta, nos permite crear un token de autenticacion
-	en el servidor verifica el token y verifica si el usuario está auntenticado sin necesidad de tener un estado
-*/
 
 export const protegida = async (req: Request, res: Response): Promise<void> => {
   const usuario = req.session?.usuario;
@@ -251,7 +244,6 @@ export const logout = async (req: Request, res: Response) => {
 };
 
 
-// ==== OPERACIONES DE ADMINISTRADOR ====
 export const findAll = async (req: Request, res: Response) => { 
   try { 
     const usuarios = await UsuarioService.findAll();
@@ -263,6 +255,7 @@ export const findAll = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message }) 
   }
 }
+
 
 export const findOne = async (req: Request, res: Response) => { 
   try { 
@@ -281,6 +274,7 @@ export const findOne = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message }) 
   }
 }
+
 
 export const remove = async (req: Request, res: Response) => { 
   try { 
@@ -307,7 +301,7 @@ export const remove = async (req: Request, res: Response) => {
   } 
 }
 
-// ==== OPERACIONES DE USUARIO (PERFIL) ====
+
 export const update = async (req: Request, res: Response) => {
   try {
     // Para actualización, pueden venir campos parciales
@@ -328,6 +322,7 @@ export const update = async (req: Request, res: Response) => {
 	}
 }
 
+
 export const getUsuariosSinEquipo = async (req: Request, res: Response) => {
   try {
     const usuarios = await UsuarioService.obtenerUsuariosSinEquipo();
@@ -338,7 +333,8 @@ export const getUsuariosSinEquipo = async (req: Request, res: Response) => {
   }
 }
 
-// ==== LISTADO DETALLADO DE USUARIOS (SOLO ADMIN) ====
+
+// Lista detallada de usuarios (solo admin)
 export async function getUsuariosAdmin(req: Request, res: Response) {
   try {
     const usuario = req.session?.usuario;
@@ -360,7 +356,7 @@ export async function getUsuariosAdmin(req: Request, res: Response) {
   }
 }
 
-// ==== ELIMINAR USUARIO (SOLO ADMIN) ====
+// Eliminar usuario (solo admin)
 export async function deleteUsuarioAdmin(req: Request, res: Response) {
   try {
     const usuarioSesion = req.session?.usuario;

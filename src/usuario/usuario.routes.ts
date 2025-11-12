@@ -33,23 +33,8 @@ usuarioRouter.put('/:id', requireAuth, requireOwnerOrAdmin, validateUsuarioUpdat
 usuarioRouter.patch('/:id', requireAuth, requireOwnerOrAdmin, validateUsuarioUpdate, sanitizeUsuarioInput, update);
 
 // Rutas de administración (SOLO ADMINS)
-usuarioRouter.get('/', requireAuth, requireAdmin, findAll); //Listar usuarios
-usuarioRouter.get('/:id', requireAuth, requireAdmin, findOne); //Buscar usuario específico
-usuarioRouter.delete('/:id', requireAuth, requireAdmin, remove); // Eliminar usuario
+usuarioRouter.get('/', requireAuth, requireAdmin, findAll);
+usuarioRouter.get('/:id', requireAuth, requireAdmin, findOne);
+usuarioRouter.delete('/:id', requireAuth, requireAdmin, remove);
 usuarioRouter.get('/admin/listado', requireAuth, getUsuariosAdmin);
 usuarioRouter.delete('/admin/:id', requireAuth, deleteUsuarioAdmin);
-
-
-/*
-POST /api/usuarios/login           # Iniciar sesión (Público)
-POST /api/usuarios/register        # Registrarse como nuevo usuario (Público)
-GET  /api/usuarios/ruta/protegida  # Acceder a contenido protegido (logueado)
-POST /api/usuarios/logout          # Cerrar sesión (logueado)
-PUT  /api/usuarios/15              # Actualizar MI perfil (si soy usuario 15) (logueado)
-PATCH /api/usuarios/15             # Actualizar parcialmente MI perfil (logueado)
-GET  /api/usuarios                 # Listar TODOS los usuarios (admin)
-GET  /api/usuarios/8               # Ver perfil específico del usuario 8 (admin)
-GET  /api/usuarios/12              # Ver perfil específico del usuario 12 (admin)
-DELETE /api/usuarios/8             # Eliminar usuario 8 (admin)
-DELETE /api/usuarios/12            # Eliminar usuario 12 (admin)
-*/

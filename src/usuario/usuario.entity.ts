@@ -24,7 +24,7 @@ export class Usuario extends BaseEntity {
   @Property({ nullable: false })
   pais!: string;
 
-  @Property({ nullable: false, default: 'user' }) //Valor por defecto
+  @Property({ nullable: false, default: 'user' })
   rol!: string;
 
   // Equipos donde es miembro
