@@ -1,4 +1,3 @@
-// controllers/torneo.controller.ts
 import express, { NextFunction, Request, Response } from "express";
 import { Torneo } from "./torneo.entity.js";
 import { orm } from "../shared/db/orm.js";
@@ -8,7 +7,6 @@ import { InscripcionService } from "../service/inscripcionService/inscripcionSer
 const em = orm.em;
 const inscripcionService = new InscripcionService();
 
-// En tu controller
 function sanitizeTorneoInput(req: Request, res: Response, next: NextFunction) {
     req.body.sanitizedInput = {
         nombre: req.body.nombre,
@@ -70,7 +68,7 @@ async function findAll(req: Request, res: Response) {
             { populate: ["tipoDeTorneo", "juego", "creador", "plataforma", "inscripcion"] }
         )
 
-        // Enriquecer con estado calculado
+        // Agregar estado de inscripcion calculado a cada torneo
         const torneosConEstado = torneos.map(torneo => ({
             ...torneo,
             estadoInscripcion: inscripcionService.calcularEstadoInscripcion(
@@ -104,7 +102,7 @@ async function findOne(req: Request, res: Response) {
             ]
         })
 
-        // Agregar estado calculado
+        // Agregar estado de inscripcion calculado
         const torneoConEstado = {
             ...torneo,
             estadoInscripcion: inscripcionService.calcularEstadoInscripcion(
