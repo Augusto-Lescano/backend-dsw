@@ -17,12 +17,3 @@ tipoDeTorneoRouter.get("/:id", requireAuth, requireAdmin, findOne)
 tipoDeTorneoRouter.post("/", requireAuth, requireAdmin, sanitizedTipoDeTorneoInput, add)
 tipoDeTorneoRouter.put("/:id", requireAuth, requireAdmin, sanitizedTipoDeTorneoInput, update)
 tipoDeTorneoRouter.delete("/:id", requireAuth, requireAdmin, remove)
-
-
-/*
-GET    /api/tipoDeTorneo           # Listar tipos (solo admin)
-GET    /api/tipoDeTorneo/1         # Ver tipo específico (solo admin)  
-POST   /api/tipoDeTorneo           # Crear tipo (solo admin)
-PUT    /api/tipoDeTorneo/1         # Actualizar tipo (solo admin)
-DELETE /api/tipoDeTorneo/1         # Eliminar tipo (solo admin)
-*/

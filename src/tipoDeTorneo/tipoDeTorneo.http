@@ -1,12 +1,10 @@
-### =========================================
 ### MÉTODOS DE PRUEBA - TIPOS DE TORNEO (SOLO ADMINS)
-### =========================================
 
-### 1. OBTENER TODOS LOS TIPOS DE TORNEO (Admin)
+### Obtener todos los tipos de torneo (Admin)
 GET http://localhost:3000/api/tipoDeTorneo
 Cookie: token_acceso=token de admin aca
 
-### 2. CREAR TIPO DE TORNEO (Admin)
+### Crear tipo de torneo (Admin)
 # @name createTipoTorneo
 POST http://localhost:3000/api/tipoDeTorneo
 Content-Type: application/json
@@ -18,12 +16,12 @@ Cookie: token_acceso=token de admin aca
   "esIndividual": true
 }
 
-### 3. OBTENER TIPO DE TORNEO ESPECÍFICO (Admin)
+### Obtener un tipo de torneo por ID (Admin)
 @tipoTorneoId = {{createTipoTorneo.response.body.data.id}}
 GET http://localhost:3000/api/tipoDeTorneo/{{tipoTorneoId}}
 Cookie: token_acceso=token de admin aca
 
-### 4. ACTUALIZAR TIPO DE TORNEO (Admin)
+### Actualizar tipo de torneo (Admin)
 PUT http://localhost:3000/api/tipoDeTorneo/{{tipoTorneoId}}
 Content-Type: application/json
 Cookie: token_acceso=token de admin aca
@@ -33,11 +31,11 @@ Cookie: token_acceso=token de admin aca
   "descripcion": "Sistema de eliminación doble con formato mejorado y más oportunidades"
 }
 
-### 5. ELIMINAR TIPO DE TORNEO (Admin)
+### Eliminar tipo de torneo (Admin)
 DELETE http://localhost:3000/api/tipoDeTorneo/{{tipoTorneoId}}
 Cookie: token_acceso=token de admin aca
 
-### 6. INTENTAR CREAR TIPO DE TORNEO COMO USUARIO NORMAL (Debería fallar)
+### Intentar crear tipo de torneo como usuario normal (Debería fallar)
 POST http://localhost:3000/api/tipoDeTorneo
 Content-Type: application/json
 Cookie: token_acceso=token de usuario normal aca
@@ -47,10 +45,10 @@ Cookie: token_acceso=token de usuario normal aca
   "descripcion": "Este tipo no debería crearse"
 }
 
-### 7. INTENTAR OBTENER TIPOS SIN AUTENTICACIÓN (Debería fallar)
+### Intentar obtener tipos como usuario normal (Debería fallar)
 GET http://localhost:3000/api/tipoDeTorneo
 
-### 8. CREAR MÚLTIPLES TIPOS DE TORNEO (Admin)
+### Crear multiples tipos de torneo (Admin)
 POST http://localhost:3000/api/tipoDeTorneo
 Content-Type: application/json
 Cookie: token_acceso=token de admin aca
