@@ -337,3 +337,45 @@ export const getUsuariosSinEquipo = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error obteniendo usuarios sin equipo' });
   }
 }
+
+// ==== LISTADO DETALLADO DE USUARIOS (SOLO ADMIN) ====
+export async function getUsuariosAdmin(req: Request, res: Response) {
+  try {
+    const usuario = req.session?.usuario;
+
+    if (!usuario || usuario.rol !== 'admin') {
+      res.status(403).json({ message: 'Se requieren permisos de administrador' });
+      return;
+    }
+
+    const usuarios = await UsuarioService.getUsuariosAdmin();
+
+    res.status(200).json({
+      message: 'Listado de usuarios (admin)',
+      data: usuarios,
+    });
+  } catch (error: any) {
+    console.error('Error en getUsuariosAdmin:', error);
+    res.status(500).json({ message: error.message });
+  }
+}
+
+// ==== ELIMINAR USUARIO (SOLO ADMIN) ====
+export async function deleteUsuarioAdmin(req: Request, res: Response) {
+  try {
+    const usuarioSesion = req.session?.usuario;
+
+    if (!usuarioSesion || usuarioSesion.rol !== 'admin') {
+      res.status(403).json({ message: 'Se requieren permisos de administrador' });
+      return;
+    }
+
+    const id = Number.parseInt(req.params.id);
+    const result = await UsuarioService.deleteUser(id);
+
+    res.status(200).json(result);
+  } catch (error: any) {
+    console.error('Error en deleteUsuarioAdmin:', error);
+    res.status(500).json({ message: error.message });
+  }
+}

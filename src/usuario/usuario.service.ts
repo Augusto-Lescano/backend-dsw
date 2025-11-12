@@ -1,6 +1,8 @@
 // usuario.service.ts
 import { orm } from '../shared/db/orm.js';
 import { Usuario } from './usuario.entity.js';
+import { Equipo } from '../equipo/equipo.entity.js';
+import { Torneo } from '../torneo/torneo.entity.js'; 
 import bcrypt from 'bcrypt';
 
 export class UsuarioService {
@@ -230,5 +232,37 @@ export class UsuarioService {
       .where('e.id is null');
 
     return await qb.getResultList();
+  }
+
+   // ==== LISTADO DETALLADO PARA ADMIN ====
+  static async getUsuariosAdmin() {
+    const em = orm.em.fork();
+
+    const usuarios = await em.find(
+      Usuario,
+      {},
+      {
+        populate: [
+          'equipos',          // donde es miembro
+          'equiposCapitan',   // donde es capitán
+          'torneosCreados',   // torneos creados
+        ],
+        orderBy: { nombre: 'ASC' },
+      }
+    );
+
+    // Transformar los datos antes de devolverlos
+    return usuarios.map(u => ({
+      id: u.id,
+      nombre: u.nombre,
+      apellido: u.apellido,
+      email: u.email,
+      nombreUsuario: u.nombreUsuario,
+      pais: u.pais,
+      rol: u.rol,
+      equiposMiembro: u.equipos?.getItems().map(e => e.nombre) ?? [],
+      equiposCapitan: u.equiposCapitan?.getItems().map(e => e.nombre) ?? [],
+      torneosCreados: u.torneosCreados?.getItems().map(t => t.nombre) ?? [],
+    }));
   }
 }

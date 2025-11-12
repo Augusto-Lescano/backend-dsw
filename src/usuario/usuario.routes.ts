@@ -11,7 +11,9 @@ import {
   logout, 
   register, 
   protegida,
-  getUsuariosSinEquipo 
+  getUsuariosSinEquipo,
+  getUsuariosAdmin,
+  deleteUsuarioAdmin 
 } from "./usuario.controller.js"; 
 import { requireAuth, requireAdmin, requireOwnerOrAdmin } from "../shared/middleware/auth.middleware.js";
 
@@ -34,6 +36,8 @@ usuarioRouter.patch('/:id', requireAuth, requireOwnerOrAdmin, validateUsuarioUpd
 usuarioRouter.get('/', requireAuth, requireAdmin, findAll); //Listar usuarios
 usuarioRouter.get('/:id', requireAuth, requireAdmin, findOne); //Buscar usuario específico
 usuarioRouter.delete('/:id', requireAuth, requireAdmin, remove); // Eliminar usuario
+usuarioRouter.get('/admin/listado', requireAuth, getUsuariosAdmin);
+usuarioRouter.delete('/admin/:id', requireAuth, deleteUsuarioAdmin);
 
 
 /*
