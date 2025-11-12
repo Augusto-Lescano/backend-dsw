@@ -1,8 +1,6 @@
-### =========================================
 ### MÉTODOS DE PRUEBA - TIPOS DE JUEGO (SOLO ADMINS)
-### =========================================
 
-### 0. PRIMERO: LOGIN COMO ADMIN
+### Login como admin
 # @name adminLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -12,11 +10,11 @@ Content-Type: application/json
   "contrasenia": "emicerto123"
 }
 
-### 1. OBTENER TODOS LOS TIPOS DE JUEGO (Admin)
+### Obtener todos los tipos de juego (Admin)
 GET http://localhost:3000/api/tipoDeJuego
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 2. CREAR TIPO DE JUEGO (Admin)
+### Crear tipo de juego (Admin)
 # @name createTipoJuego
 POST http://localhost:3000/api/tipoDeJuego
 Content-Type: application/json
@@ -27,12 +25,12 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "descripcion": "Juegos donde múltiples jugadores luchan hasta que queda uno solo en pie"
 }
 
-### 3. OBTENER TIPO DE JUEGO ESPECÍFICO (Admin)
+### Obtener tipo de juego por ID (Admin)
 @tipoJuegoId = {{createTipoJuego.response.body.data.id}}
 GET http://localhost:3000/api/tipoDeJuego/{{tipoJuegoId}}
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 4. ACTUALIZAR TIPO DE JUEGO (Admin)
+### Actualizar tipo de juego (Admin)
 PUT http://localhost:3000/api/tipoDeJuego/{{tipoJuegoId}}
 Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
@@ -42,11 +40,11 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "descripcion": "Juegos battle royale con mecánicas avanzadas y construcción"
 }
 
-### 5. ELIMINAR TIPO DE JUEGO (Admin)
+### Eliminar tipo de juego (Admin)
 DELETE http://localhost:3000/api/tipoDeJuego/{{tipoJuegoId}}
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 6. INTENTAR CREAR TIPO DE JUEGO COMO USUARIO NORMAL (Debería fallar)
+### Intentar crear tipo de juego como usuario normal (Debería fallar)
 # @name userLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -65,10 +63,10 @@ Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
   "descripcion": "Este tipo no debería crearse"
 }
 
-### 7. INTENTAR OBTENER TIPOS SIN AUTENTICACIÓN (Debería fallar)
+### Intentar obtener tipos como usuario normal (Debería fallar)
 GET http://localhost:3000/api/tipoDeJuego
 
-### 8. CREAR MÚLTIPLES TIPOS DE JUEGO (Admin)
+### Crear multiples tipos de juego (Admin)
 POST http://localhost:3000/api/tipoDeJuego
 Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
@@ -134,6 +132,6 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "descripcion": "Peleas"
 }
 
-### 9. VERIFICAR QUE LOS TIPOS SE CREARON (Admin)
+### Verificar todos los tipos de juego creados (Admin)
 GET http://localhost:3000/api/tipoDeJuego
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
