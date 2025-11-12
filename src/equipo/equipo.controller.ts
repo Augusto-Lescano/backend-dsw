@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction} from 'express';
 import { Equipo } from './equipo.entity.js';
+import { Usuario } from '../usuario/usuario.entity.js';
 import { orm } from '../shared/db/orm.js';
 
 function sanitizeEquipoInput(req:Request, res:Response, next:NextFunction){
     req.body.sanitizedInput = {
         nombre: req.body.nombre,
+				descripcion: req.body.descripcion,
         capitan: req.body.capitan,  
         jugadores: req.body.jugadores
     }
@@ -49,20 +51,55 @@ async function findOne(req:Request,res: Response){
     } 
 } 
 
-async function add(req:Request, res:Response){
-    const em = orm.em.fork();
+
+async function add(req: Request, res: Response) {
+  const em = orm.em.fork();
+
   try {
-    const equipo = em.create(Equipo, req.body.sanitizedInput)
-    await em.flush()
+    const { nombre, descripcion, capitan, jugadores } = req.body.sanitizedInput;
+
+    if (!capitan) {
+      res.status(400).json({ message: "El equipo debe tener un capitán" });
+    }
+
+    // Crear el equipo base
+    const equipo = em.create(Equipo, {
+      nombre,
+      descripcion,
+      capitan: await em.getReference(Usuario, capitan),
+    });
+
+    // Persistimos el equipo para que MikroORM lo rastree antes de modificar relaciones
+    em.persist(equipo);
+
+    // Si vienen jugadores, los agregamos
+    if (Array.isArray(jugadores) && jugadores.length > 0) {
+      const jugadoresEntidades = await em.find(Usuario, { id: { $in: jugadores } });
+
+      if (jugadoresEntidades.length > 0) {
+        jugadoresEntidades.forEach((jugador) => equipo.jugadores.add(jugador));
+        console.log(`✅ Se agregaron ${jugadoresEntidades.length} jugadores al equipo.`);
+      } else {
+        console.warn("⚠️ No se encontraron jugadores con los IDs enviados.");
+      }
+    }
+
+    // Guardamos todo
+    await em.flush();
+
+    console.log("✅ Equipo creado con éxito:", equipo);
 
     res.status(201).json({
-        message: "Equipo creado",
-        data: equipo
+      message: "Equipo creado correctamente",
+      data: equipo,
     });
-  } catch (error:any) {
-    res.status(500).json({message:error.message})
+
+  } catch (error: any) {
+    console.error("❌ Error al crear equipo:", error);
+    res.status(500).json({ message: error.message });
   }
 }
+
 
 async function update(req:Request, res: Response){
     const em = orm.em.fork(); 

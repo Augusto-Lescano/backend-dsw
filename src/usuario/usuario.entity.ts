@@ -27,8 +27,13 @@ export class Usuario extends BaseEntity {
   @Property({ nullable: false, default: 'user' }) //Valor por defecto
   rol!: string;
 
+  // Equipos donde es miembro
   @ManyToMany(() => Equipo, equipo => equipo.jugadores)
   equipos = new Collection<Equipo>(this);
+
+  // Equipos donde este usuario es capitán (creador)
+  @OneToMany(() => Equipo, equipo => equipo.capitan)
+  equiposCapitan = new Collection<Equipo>(this);
 
   @OneToMany(() => Torneo, torneo => torneo.creador)
   torneosCreados = new Collection<Torneo>(this)
