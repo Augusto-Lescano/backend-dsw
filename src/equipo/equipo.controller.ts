@@ -23,7 +23,6 @@ function sanitizeEquipoInput(req:Request, res:Response, next:NextFunction){
 async function findAll(req:Request, res:Response){
     const em = orm.em.fork();
     try {
-        // REMOVER "inscripcion" del populate ya que no existe más
         const equipos = await em.find(Equipo,{},{populate:["capitan", "jugadores"]})
 
         res.status(200).json({
@@ -39,7 +38,6 @@ async function findOne(req:Request,res: Response){
     const em = orm.em.fork(); 
     try { 
         const id = Number.parseInt(req.params.id) 
-        // REMOVER "inscripcion" y "inscripcion.torneo" del populate
         const equipo = await em.findOneOrFail(Equipo,{id},{populate:["capitan", "jugadores"]}) 
 
         res.status(200).json({
@@ -69,7 +67,7 @@ async function add(req: Request, res: Response) {
       capitan: await em.getReference(Usuario, capitan),
     });
 
-    // Persistimos el equipo para que MikroORM lo rastree antes de modificar relaciones
+    // Guardamos el equipo inicialmente para obtener un ID
     em.persist(equipo);
 
     // Si vienen jugadores, los agregamos
@@ -78,16 +76,16 @@ async function add(req: Request, res: Response) {
 
       if (jugadoresEntidades.length > 0) {
         jugadoresEntidades.forEach((jugador) => equipo.jugadores.add(jugador));
-        console.log(`✅ Se agregaron ${jugadoresEntidades.length} jugadores al equipo.`);
+        console.log(`Se agregaron ${jugadoresEntidades.length} jugadores al equipo.`);
       } else {
-        console.warn("⚠️ No se encontraron jugadores con los IDs enviados.");
+        console.warn("No se encontraron jugadores con los IDs enviados.");
       }
     }
 
     // Guardamos todo
     await em.flush();
 
-    console.log("✅ Equipo creado con éxito:", equipo);
+    console.log("Equipo creado con éxito:", equipo);
 
     res.status(201).json({
       message: "Equipo creado correctamente",
@@ -95,7 +93,7 @@ async function add(req: Request, res: Response) {
     });
 
   } catch (error: any) {
-    console.error("❌ Error al crear equipo:", error);
+    console.error("Error al crear equipo:", error);
     res.status(500).json({ message: error.message });
   }
 }

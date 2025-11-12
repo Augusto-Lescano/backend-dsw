@@ -1,3 +1,3 @@
 # backend-dsw
 
-# Esto es un cambio de prueba en el repo de backend.
+# Backend del proyecto "ClutchUp" gestion de torneos, para la cátedra Desarrollo de Software 

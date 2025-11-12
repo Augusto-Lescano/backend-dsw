@@ -1,4 +1,3 @@
-// inscripcion.routes.ts
 import { Router } from 'express';
 import { 
   inscribirUsuarioIndividual,

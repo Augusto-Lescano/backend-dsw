@@ -1,8 +1,6 @@
-### =========================================
 ### MÉTODOS DE PRUEBA - INSCRIPCIONES (SOLO ADMINS)
-### =========================================
 
-### 0. LOGIN COMO ADMIN
+### Login como admin
 # @name adminLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -12,11 +10,11 @@ Content-Type: application/json
   "contrasenia": "gianmarco123"
 }
 
-### 1. OBTENER TODAS LAS INSCRIPCIONES (Admin)
+### Obtener todas las inscripciones (Admin)
 GET http://localhost:3000/api/inscripcion
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 2. CREAR INSCRIPCIÓN MANUAL (Admin - si es necesario)
+### Crear inscripción (Admin)
 # @name createInscripcion
 POST http://localhost:3000/api/inscripcion
 Content-Type: application/json
@@ -30,12 +28,12 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "fechaCierre": "2024-06-30T23:59:00Z"
 }
 
-### 3. OBTENER INSCRIPCIÓN ESPECÍFICA (Admin)
+### Obtener inscripción por ID (Admin)
 @inscripcionId = {{createInscripcion.response.body.data.id}}
 GET http://localhost:3000/api/inscripcion/{{inscripcionId}}
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 4. ACTUALIZAR INSCRIPCIÓN (Admin)
+### Actualizar inscripción (Admin)
 PUT http://localhost:3000/api/inscripcion/{{inscripcionId}}
 Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
@@ -45,19 +43,17 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "motivo": "Inscripciones cerradas por admin"
 }
 
-### 5. ELIMINAR INSCRIPCIÓN (Admin)
+### Eliminar inscripción (Admin)
 DELETE http://localhost:3000/api/inscripcion/{{inscripcionId}}
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 6. VER INSCRIPCIONES DE UN TORNEO ESPECÍFICO (Admin)
+### Ver inscripciones por torneo (Admin)
 GET http://localhost:3000/api/inscripcion?torneoId=1
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### =========================================
 ### PRUEBAS DE SEGURIDAD (deberían fallar)
-### =========================================
 
-### 7. INTENTAR ACCEDER COMO USUARIO NORMAL (Debería fallar)
+### Intentar obtener inscripciones como usuario normal (Debería fallar)
 # @name userLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -70,5 +66,5 @@ Content-Type: application/json
 GET http://localhost:3000/api/inscripcion
 Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
 
-### 8. INTENTAR ACCEDER SIN AUTENTICACIÓN (Debería fallar)
+### Intentar acceder sin autenticación (Debería fallar)
 GET http://localhost:3000/api/inscripcion

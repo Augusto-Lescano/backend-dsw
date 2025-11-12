@@ -1,8 +1,6 @@
-### =========================================
 ### MÉTODOS DE PRUEBA - EQUIPOS
-### =========================================
 
-### 0. LOGIN COMO USUARIO NORMAL
+### Login como usuario normal
 # @name userLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -12,7 +10,7 @@ Content-Type: application/json
   "contrasenia": "jotarokujo10"
 }
 
-### 1. CREAR EQUIPO COMO USUARIO NORMAL (Permitido)
+### Crear equipo como usuario normal (Permitido)
 # @name createEquipo
 POST http://localhost:3000/api/equipos
 Content-Type: application/json
@@ -24,7 +22,7 @@ Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
   "capitan": 7
 }
 
-### 2. ACTUALIZAR PROPIO EQUIPO COMO DUEÑO (Permitido)
+### Actualizar propio equipo (Permitido)
 @equipoId = {{createEquipo.response.body.data.id}}
 PUT http://localhost:3000/api/equipos/{{equipoId}}
 Content-Type: application/json
@@ -35,7 +33,7 @@ Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
   "descripcion": "Equipo competitivo de CS2 - Versión mejorada"
 }
 
-### 3. ACTUALIZACIÓN PARCIAL PROPIO EQUIPO (Permitido)
+### Actualizar propio equipo parcialmente (Permitido)
 PATCH http://localhost:3000/api/equipos/{{equipoId}}
 Content-Type: application/json
 Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
@@ -44,7 +42,7 @@ Cookie: token_acceso={{userLogin.response.headers.set-cookie}}
   "descripcion": "Nueva descripción del equipo"
 }
 
-### 4. LOGIN COMO OTRO USUARIO
+### Login como otro usuario normal (Diferente al creador del equipo)
 # @name otherUserLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -54,7 +52,7 @@ Content-Type: application/json
   "contrasenia": "password123"
 }
 
-### 5. INTENTAR ACTUALIZAR EQUIPO AJENO (Debería fallar)
+### Intentar actualizar equipo de otro usuario (Debería fallar)
 PUT http://localhost:3000/api/equipos/{{equipoId}}
 Content-Type: application/json
 Cookie: token_acceso={{otherUserLogin.response.headers.set-cookie}}
@@ -63,7 +61,7 @@ Cookie: token_acceso={{otherUserLogin.response.headers.set-cookie}}
   "nombre": "Equipo Hackeado"
 }
 
-### 6. LOGIN COMO ADMIN
+### Login como admin
 # @name adminLogin
 POST http://localhost:3000/api/usuarios/login
 Content-Type: application/json
@@ -73,15 +71,15 @@ Content-Type: application/json
   "contrasenia": "Admin123!"
 }
 
-### 7. ADMIN PUEDE VER TODOS LOS EQUIPOS (Permitido)
+### Admin puede ver todos los equipos (Permitido)
 GET http://localhost:3000/api/equipos
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 8. ADMIN PUEDE VER EQUIPO ESPECÍFICO (Permitido)
+### Admin puede ver cualquier equipo por ID (Permitido)
 GET http://localhost:3000/api/equipos/{{equipoId}}
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 9. ADMIN PUEDE ACTUALIZAR CUALQUIER EQUIPO (Permitido)
+### Admin puede actualizar cualquier equipo (Permitido)
 PUT http://localhost:3000/api/equipos/{{equipoId}}
 Content-Type: application/json
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
@@ -91,11 +89,11 @@ Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
   "descripcion": "Equipo modificado por administración"
 }
 
-### 10. ADMIN PUEDE ELIMINAR EQUIPO (Permitido)
+### Admin puede eliminar cualquier equipo (Permitido)
 DELETE http://localhost:3000/api/equipos/{{equipoId}}
 Cookie: token_acceso={{adminLogin.response.headers.set-cookie}}
 
-### 11. USUARIO NORMAL INTENTA ELIMINAR EQUIPO (Debería fallar)
+### Usuario puede eliminar su propio equipo (Permitido)
 # Crear otro equipo para probar eliminación
 # @name createEquipo2
 POST http://localhost:3000/api/equipos

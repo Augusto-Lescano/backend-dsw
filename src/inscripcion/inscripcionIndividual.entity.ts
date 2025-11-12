@@ -7,7 +7,7 @@ import { Inscripcion } from "./inscripcion.entity.js";
 export class InscripcionIndividual extends BaseEntity {
 
     @Property({ nullable: false })
-    fechaInscripcion: Date = new Date(); // Solo necesitas esta fecha
+    fechaInscripcion: Date = new Date();
 
     @ManyToOne(() => Inscripcion, { nullable: false })
     inscripcion!: Rel<Inscripcion>;
