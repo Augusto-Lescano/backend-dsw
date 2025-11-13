@@ -17,7 +17,6 @@ declare global {
 
 export function authMiddleware(req: Request, res: Response, next: NextFunction): void {
   const token = req.cookies.token_acceso;
-   console.log('🔹 Token recibido:', token);
   req.session = { usuario: null };
 
   if (!token) {
@@ -26,7 +25,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
 
   try {
     const data = jwt.verify(token, SECRET_JWT_KEY) as any;
-    req.session.usuario = data; // { id, nombreUsuario }
+    req.session.usuario = data; // { id, nombreUsuario, rol }
     next();
   } catch (error) {
     // Token inválido o expirado - limpiar cookie

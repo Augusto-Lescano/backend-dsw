@@ -27,13 +27,13 @@ app.use(cors({
 app.use(express.json()); // Mira si la req tiene algo en el body, de ser asi lo deja en el req.body
 app.use(cookieParser());
 
-// Middleware de autenticación
-app.use(authMiddleware); //aplica el middleware de autenticación globalmente a todas las rutas
-
 // Middleware de MikroORM
 app.use((req, res, next) => {
   RequestContext.create(orm.em, next)
 });
+
+// Middleware de autenticación
+app.use(authMiddleware); //aplica el middleware de autenticación globalmente a todas las rutas
 
 // Rutas
 app.use('/api/torneos', torneoRouter)
